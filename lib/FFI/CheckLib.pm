@@ -34,7 +34,7 @@ the found dynamic library, which can be feed directly into L<FFI::Raw>.
 =cut
 
 our $system_path;
-our $os = $ENV{FFI_CHECKLIB_TEST_OS} // $^O;
+our $os = $ENV{FFI_CHECKLIB_TEST_OS} || $^O;
 our $dyna_loader = 'DynaLoader';
 
 if($os eq 'MSWin32')
