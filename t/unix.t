@@ -4,9 +4,21 @@ use FindBin ();
 use File::Spec;
 use lib $FindBin::Bin;
 use testlib;
-use Test::More tests => 9;
+use Test::More tests => 12;
 BEGIN { $ENV{FFI_CHECKLIB_TEST_OS} = 'linux' }
 use FFI::CheckLib;
+
+BEGIN {
+  eval q{
+    use Capture::Tiny qw( capture_stderr );
+  };
+  if($@)
+  {
+    eval q{
+      sub capture_stderr (&) { $_[0]->() };
+    };
+  }
+}
 
 do {
   no warnings 'once';
@@ -97,4 +109,45 @@ subtest 'find_lib symbol (list)' => sub {
 subtest 'find_lib symbol (list) (bad)' => sub {
   my @path = find_lib( lib => 'foo', symbol => ['foo_init', 'foo_new', 'foo_delete', 'bogus'] );
   ok @path == 0, 'no path found';
+};
+
+subtest 'assert_lib' => sub {
+  plan tests => 2;
+  
+  subtest 'found' => sub {
+    plan tests => 1;
+    eval { assert_lib( lib => 'foo' ) };
+    is $@, '', 'no exception';
+  };
+  
+  subtest 'not found' => sub {
+    plan tests => 1;
+    eval { assert_lib( lib => 'foobar') };
+    isnt $@, '', 'exception'; 
+  };
+};
+
+subtest 'check_lib' => sub {
+  plan tests => 2;
+  
+  is check_lib( lib => 'foo' ), 1, 'found';
+  is check_lib( lib => 'foobar'), 0, 'not found';
+};
+
+subtest 'check_lib_or_exit' => sub {
+
+  plan tests => 2;
+  
+  subtest 'found' => sub {
+    plan tests => 1;
+    eval { check_lib_or_exit( lib => 'foo' ) };
+    is $@, '', 'no exit';
+  };
+  
+  subtest 'not found' => sub {
+    plan tests => 1;
+    eval { capture_stderr { check_lib_or_exit( lib => 'foobar') } };
+    like $@, qr{::exit::}, 'called exit'; 
+  };
+
 };
