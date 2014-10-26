@@ -26,6 +26,8 @@ do {
     File::Spec->catdir($FindBin::Bin, qw( fs unix usr lib )),
     File::Spec->catdir($FindBin::Bin, qw( fs unix lib )),
   ];
+  
+  $FFI::CheckLib::dyna_loader = 'MyDynaLoader';
 };
 
 subtest 'find_lib (good)' => sub {

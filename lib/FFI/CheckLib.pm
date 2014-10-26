@@ -36,6 +36,7 @@ the found dynamic library, which can be feed directly into L<FFI::Raw>.
 
 our $system_path;
 our $os = $ENV{FFI_CHECKLIB_TEST_OS} // $^O;
+our $dyna_loader = 'DynaLoader';
 
 if($os eq 'MSWin32')
 {
@@ -155,10 +156,13 @@ sub find_lib
       
       foreach my $symbol (keys %symbols)
       {
-        next unless eval q{
-          use FFI::Raw;
-          FFI::Raw->new($lib->[1], $symbol, FFI::Raw::void);
-          1;
+        next unless do {
+          require "$dyna_loader.pm";
+          no strict 'refs';
+          my $dll = &{"$dyna_loader\::dl_load_file"}($lib->[1],0);
+          my $ok = &{"$dyna_loader\::dl_find_symbol"}($dll, $symbol) ? 1 : 0;
+          &{"$dyna_loader\::dl_unload_file"}($dll);
+          $ok;
         };
         delete $symbols{$symbol};
       }
