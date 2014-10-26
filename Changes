@@ -2,5 +2,7 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.02      2014-10-26 13:18:14 -0400
+
 0.01      2014-10-26 11:34:58 -0400
   - initial version
