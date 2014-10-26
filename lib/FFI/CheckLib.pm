@@ -35,8 +35,9 @@ the found dynamic library, which can be feed directly into L<FFI::Raw>.
 =cut
 
 our $system_path;
+our $os = $ENV{FFI_CHECKLIB_TEST_OS} // $^O;
 
-if($^O eq 'MSWin32')
+if($os eq 'MSWin32')
 {
   $system_path = eval q{
     use Env qw( @PATH );
@@ -53,15 +54,15 @@ else
 
 our $pattern = [ qr{^lib(.*?)\.so.*$} ];
 
-if($^O eq 'cygwin')
+if($os eq 'cygwin')
 {
   push @$pattern, qr{^cyg(.*?)(?:-[0-9]+)?\.dll$};
 }
-elsif($^O eq 'MSWin32')
+elsif($os eq 'MSWin32')
 {
   $pattern = [ qr{^(?:lib)?(.*?)(?:-[0-9]+)?\.dll$} ];
 }
-elsif($^O eq 'darwin')
+elsif($os eq 'darwin')
 {
   push @$pattern, qr{^lib(.*?)\.dylib$};
 }

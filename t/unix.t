@@ -1,12 +1,12 @@
 use strict;
 use warnings;
-BEGIN { $^O = 'linux' }
 use FindBin ();
 use File::Spec;
 use lib $FindBin::Bin;
 use testlib;
-use FFI::CheckLib;
 use Test::More tests => 9;
+BEGIN { $ENV{FFI_CHECKLIB_TEST_OS} = 'linux' }
+use FFI::CheckLib;
 
 do {
   no warnings 'once';
