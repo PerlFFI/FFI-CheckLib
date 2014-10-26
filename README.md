@@ -4,7 +4,7 @@ Check that a library is available for FFI
 
 # SYNOPSIS
 
-    use FFI::CheckLib::FFI;
+    use FFI::CheckLib;
     
     check_lib_or_exit( lib => 'jpeg', symbol => 'jinit_memory_mgr' );
     check_lib_or_exit( lib => [ 'iconv', 'jpeg' ] );

@@ -13,7 +13,7 @@ our @EXPORT = qw( find_lib assert_lib check_lib check_lib_or_exit );
 
 =head1 SYNOPSIS
 
-  use FFI::CheckLib::FFI;
+  use FFI::CheckLib;
   
   check_lib_or_exit( lib => 'jpeg', symbol => 'jinit_memory_mgr' );
   check_lib_or_exit( lib => [ 'iconv', 'jpeg' ] );

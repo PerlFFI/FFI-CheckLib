@@ -40,7 +40,6 @@ sub new
   my($class, $filename) = @_;
   
   my @list = do {
-    use autodie;
     my $fh;
     open $fh, '<', $filename;
     my @list = <$fh>;
