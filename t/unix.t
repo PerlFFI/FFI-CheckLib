@@ -3,7 +3,7 @@ use warnings;
 BEGIN { $^O = 'linux' }
 use FindBin ();
 use File::Spec;
-use lib File::Spec->catdir($FindBin::Bin);
+use lib $FindBin::Bin;
 use testlib;
 use FFI::CheckLib;
 use Test::More tests => 9;
