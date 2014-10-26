@@ -31,6 +31,11 @@ even when development packages are not installed.  It also provides a
 L<find_lib|FFI::CheckLib#find_lib> function that will return the full path to
 the found dynamic library, which can be feed directly into L<FFI::Raw>.
 
+Although intended mainly for FFI modules via L<FFI::Raw> and similar, this module
+does not actually use any FFI to do its detection and probing.  This module does
+not have any non-core dependencies other than L<Module::Build> on Perl 5.20 and
+more recent.
+
 =cut
 
 our $system_path;
