@@ -4,7 +4,7 @@ use FindBin ();
 use File::Spec;
 use lib $FindBin::Bin;
 use testlib;
-use Test::More tests => 12;
+use Test::More tests => 14;
 BEGIN { $ENV{FFI_CHECKLIB_TEST_OS} = 'linux' }
 use FFI::CheckLib;
 
@@ -153,3 +153,40 @@ subtest 'check_lib_or_exit' => sub {
   };
 
 };
+
+subtest 'verify bad' => sub {
+
+  my @lib = find_lib(
+    lib => 'foo',
+    verify => sub { 0 },
+  );
+  
+  ok @lib == 0, 'returned empty list';
+
+  @lib = find_lib(
+    lib => 'foo',
+    verify => [ sub { 0 } ],
+  );
+  
+  ok @lib == 0, 'returned empty list';
+
+};
+
+subtest 'verify' => sub {
+
+  my($lib) = find_lib(
+    lib => 'foo',
+    verify => sub {
+      my($name, $path) = @_;
+      my $lib = TestDLL->new($path);
+      $lib->version ne '1.2.3'
+    },
+  );
+  
+  ok -r $lib, "path = $lib is readable";
+  my $dll = TestDLL->new($lib);
+  is $dll->name, 'foo', 'dll.name = foo';
+  is $dll->version, '2.3.4', 'dll.version = 2.3.4';
+
+};
+

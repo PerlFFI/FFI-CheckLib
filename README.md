@@ -44,6 +44,43 @@ A string or array of additional paths to search for libraries.
 
 A string or a list of symbol names that must be found.
 
+### verify
+
+A code reference used to verify a library really is the one that you want.  It 
+should take two arguments, which is the name of the library and the full path to the
+library pathname.  It should return true if it is acceptable, and false otherwise.  
+You can use this in conjunction with [FFI::Raw](https://metacpan.org/pod/FFI::Raw) to determine if it is going to meet
+your needs.  Example:
+
+    use FFI::CheckLib;
+    use FFI::Raw;
+    
+    my($lib) = find_lib(
+      name => 'foo',
+      verify => sub {
+        my($name, $libpath) = @_;
+        
+        my $new = FFI::Raw->new(
+          $lib, 'foo_new',
+          FFI::Raw::ptr,
+        );
+        
+        my $delete = FFI::Raw->new(
+          $lib, 'foo_delete',
+          FFI::Raw::void,
+          FFI::Raw::ptr,
+        );
+        
+        # return true if new returns
+        # a pointer, not forgetting
+        # to free it on success.
+        my $ptr = $new->call();
+        return 0 unless $ptr;
+        $delete->call();
+        return 1;
+      },
+    );
+
 ## assert\_lib
 
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),

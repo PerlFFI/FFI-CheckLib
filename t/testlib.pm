@@ -12,7 +12,6 @@ do {
   sub dl_load_file
   {
     my($filename, $flags) = @_;
-    $DB::single = 1;
     return undef unless -e $filename;
     my $libref = scalar @libref;
     @libref[$libref] = TestDLL->new($filename);
@@ -28,7 +27,6 @@ do {
   sub dl_find_symbol
   {
     my($libref, $symbol) = @_;
-    $DB::single = 1;
     my $lib = $libref[$libref];
     $lib->has_symbol($symbol);
   }
@@ -41,10 +39,14 @@ sub new
 {
   my($class, $filename) = @_;
   
-  my $fh;
-  open $fh, '<', $filename;
-  my @list = <$fh>;
-  close $fh;
+  my @list = do {
+    use autodie;
+    my $fh;
+    open $fh, '<', $filename;
+    my @list = <$fh>;
+    close $fh;
+    @list;
+  };
   
   chomp @list;
   
