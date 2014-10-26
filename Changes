@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.03      2014-10-26 16:35:22 -0400
   - use DynaLoader for symbol resolution instead of FFI::Raw
     thus remove dep on FFI::Raw
   - add verify option
