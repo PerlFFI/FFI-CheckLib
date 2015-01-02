@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.04      2015-01-02 11:21:59 -0500
   - works with .bundle files on OS X
     (previously only with .dylib files)
 
