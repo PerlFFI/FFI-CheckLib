@@ -69,7 +69,7 @@ elsif($os eq 'MSWin32')
 }
 elsif($os eq 'darwin')
 {
-  push @$pattern, qr{^lib(.*?)\.dylib$};
+  push @$pattern, qr{^lib(.*?)\.(?:dylib|bundle)$};
 }
 
 sub _matches

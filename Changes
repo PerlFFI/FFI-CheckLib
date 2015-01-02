@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - works with .bundle files on OS X
+    (previously only with .dylib files)
 
 0.03      2014-10-26 16:35:22 -0400
   - use DynaLoader for symbol resolution instead of FFI::Raw
