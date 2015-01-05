@@ -268,3 +268,19 @@ sub check_lib
 }
 
 1;
+
+=head1 SEE ALSO
+
+=over 4
+
+=item L<FFI::Raw>
+
+Call library functions dynamically without a compiler.
+
+=item L<Dist::Zilla::Plugin::FFI::CheckLib>
+
+L<Dist::Zilla> plugin for this module.
+
+=back
+
+=cut

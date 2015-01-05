@@ -103,6 +103,16 @@ and exists.  This is intended for use in `Makefile.PL` or `Build.PL`
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), except that
 it returns true (1) on finding the appropriate libraries or false (0) otherwise.
 
+# SEE ALSO
+
+- [FFI::Raw](https://metacpan.org/pod/FFI::Raw)
+
+    Call library functions dynamically without a compiler.
+
+- [Dist::Zilla::Plugin::FFI::CheckLib](https://metacpan.org/pod/Dist::Zilla::Plugin::FFI::CheckLib)
+
+    [Dist::Zilla](https://metacpan.org/pod/Dist::Zilla) plugin for this module.
+
 # AUTHOR
 
 Graham Ollis <plicease@cpan.org>
