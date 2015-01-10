@@ -35,6 +35,10 @@ All of these take the same named parameters and are exported by default.
 
 This will return a list of dynamic libraries, or empty list if none were found.
 
+\[version 0.05\]
+
+If called in scalar context it will return the first library found.
+
 ### lib
 
 Must be either a string with the name of a single library or a reference to an array
@@ -97,6 +101,14 @@ an exception.
 This behaves exactly the same as [assert\_lib](https://metacpan.org/pod/FFI::CheckLib#assert_lib),
 except that instead of dying, it warns (with exactly the same error message)
 and exists.  This is intended for use in `Makefile.PL` or `Build.PL`
+
+## find\_lib\_or\_exit
+
+\[version 0.05\]
+
+This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),
+except that if the library is not found, it will call exit with an
+appropriate diagnostic.
 
 ## check\_lib
 
