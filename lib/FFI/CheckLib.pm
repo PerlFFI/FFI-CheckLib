@@ -6,7 +6,7 @@ use File::Spec;
 use Carp qw( croak );
 use base qw( Exporter );
 
-our @EXPORT = qw( find_lib assert_lib check_lib check_lib_or_exit );
+our @EXPORT = qw( find_lib assert_lib check_lib check_lib_or_exit find_lib_or_exit );
 
 # ABSTRACT: Check that a library is available for FFI
 # VERSION
@@ -253,6 +253,27 @@ sub check_lib_or_exit
     warn 'library not found';
     exit;
   }
+}
+
+=head2 find_lib_or_exit
+
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
+except that if the library is not found, it will call exit with an
+appropriate diagnostic.
+
+=cut
+
+sub find_lib_or_exit
+{
+  my(@libs) = find_lib(@_);
+  unless(@libs)
+  {
+    # TODO: could probably work on
+    # diagnostics
+    warn 'library not found';
+    exit;
+  }
+  @libs;
 }
 
 =head2 check_lib

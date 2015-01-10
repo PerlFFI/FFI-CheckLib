@@ -4,7 +4,7 @@ use FindBin ();
 use File::Spec;
 use lib $FindBin::Bin;
 use testlib;
-use Test::More tests => 14;
+use Test::More tests => 15;
 BEGIN { $ENV{FFI_CHECKLIB_TEST_OS} = 'linux' }
 use FFI::CheckLib;
 
@@ -149,6 +149,25 @@ subtest 'check_lib_or_exit' => sub {
   subtest 'not found' => sub {
     plan tests => 1;
     eval { capture_stderr { check_lib_or_exit( lib => 'foobar') } };
+    like $@, qr{::exit::}, 'called exit'; 
+  };
+
+};
+
+subtest 'find_lib_or_exit' => sub {
+
+  plan tests => 2;
+  
+  subtest 'found' => sub {
+    plan tests => 2;
+    my $path = eval { find_lib_or_exit( lib => 'foo' ) };
+    is $@, '', 'no exit';
+    ok $path, "path = $path";
+  };
+  
+  subtest 'not found' => sub {
+    plan tests => 1;
+    eval { capture_stderr { find_lib_or_exit( lib => 'foobar') } };
     like $@, qr{::exit::}, 'called exit'; 
   };
 
