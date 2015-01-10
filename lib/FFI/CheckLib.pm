@@ -3,7 +3,7 @@ package FFI::CheckLib;
 use strict;
 use warnings;
 use File::Spec;
-use Carp qw( croak );
+use Carp qw( croak carp );
 use base qw( Exporter );
 
 our @EXPORT = qw( find_lib assert_lib check_lib check_lib_or_exit find_lib_or_exit );
@@ -250,7 +250,7 @@ sub check_lib_or_exit
   {
     # TODO: could probably work on
     # diagnostics
-    warn 'library not found';
+    carp 'library not found';
     exit;
   }
 }
@@ -270,7 +270,7 @@ sub find_lib_or_exit
   {
     # TODO: could probably work on
     # diagnostics
-    warn 'library not found';
+    carp 'library not found';
     exit;
   }
   @libs;
