@@ -5,6 +5,7 @@ Revision history for {{$dist->name}}
   - [API CHANGE] find_lib returns first library
     found if called in scalar context, instead 
     of the number of libraries found.
+  - better diagnostics for failure (GH#1)
 
 0.04      2015-01-02 11:21:59 -0500
   - works with .bundle files on OS X

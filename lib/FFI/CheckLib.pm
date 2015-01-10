@@ -226,6 +226,20 @@ sub find_lib
       push @found, $lib->[1];
     }    
   }
+
+  if(%missing)
+  {
+    my @missing = keys %missing;
+    if(@missing > 1)
+    { $diagnostic = "libraries not found: @missing" }
+    else
+    { $diagnostic = "library not found: @missing" }
+  }
+  elsif(%symbols)
+  {
+    my @missing = keys %symbols;
+    $diagnostic = "symbols not found: @missing";
+  }
   
   return if %symbols;
   return $found[0] unless wantarray;
@@ -242,7 +256,7 @@ an exception.
 
 sub assert_lib
 {
-  croak 'library not found' unless check_lib(@_);
+  croak $diagnostic || 'library not found' unless check_lib(@_);
 }
 
 =head2 check_lib_or_exit
@@ -257,9 +271,7 @@ sub check_lib_or_exit
 {
   unless(check_lib(@_))
   {
-    # TODO: could probably work on
-    # diagnostics
-    carp 'library not found';
+    carp $diagnostic || 'library not found';
     exit;
   }
 }
@@ -279,9 +291,7 @@ sub find_lib_or_exit
   my(@libs) = find_lib(@_);
   unless(@libs)
   {
-    # TODO: could probably work on
-    # diagnostics
-    carp 'library not found';
+    carp $diagnostic || 'library not found';
     exit;
   }
   return unless @libs;
