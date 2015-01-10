@@ -90,6 +90,10 @@ All of these take the same named parameters and are exported by default.
 
 This will return a list of dynamic libraries, or empty list if none were found.
 
+[version 0.05]
+
+If called in scalar context it will return the first library found.
+
 =head3 lib
 
 Must be either a string with the name of a single library or a reference to an array
@@ -143,10 +147,13 @@ your needs.  Example:
 
 =cut
 
+my $diagnostic;
+
 sub find_lib
 {
   my(%args) = @_;
   
+  undef $diagnostic;
   croak "find_lib requires lib argument" unless defined $args{lib};
 
   # make arguments be lists.
@@ -220,7 +227,9 @@ sub find_lib
     }    
   }
   
-  %symbols ? () : @found;
+  return if %symbols;
+  return $found[0] unless wantarray;
+  return @found;
 }
 
 =head2 assert_lib
@@ -257,6 +266,8 @@ sub check_lib_or_exit
 
 =head2 find_lib_or_exit
 
+[version 0.05]
+
 This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
 except that if the library is not found, it will call exit with an
 appropriate diagnostic.
@@ -273,7 +284,8 @@ sub find_lib_or_exit
     carp 'library not found';
     exit;
   }
-  @libs;
+  return unless @libs;
+  wantarray ? @libs : $libs[0];
 }
 
 =head2 check_lib

@@ -1,6 +1,10 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - add function find_lib_or_exit (GH#2)
+  - [API CHANGE] find_lib returns first library
+    found if called in scalar context, instead 
+    of the number of libraries found.
 
 0.04      2015-01-02 11:21:59 -0500
   - works with .bundle files on OS X

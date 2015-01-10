@@ -31,10 +31,13 @@ do {
 };
 
 subtest 'find_lib (good)' => sub {
-  plan tests => 3;
+  plan tests => 4;
 
   my($path) = find_lib( lib => 'foo' );
   ok -r $path, "path = $path is readable";
+  
+  my $path2 = find_lib( lib => 'foo' );
+  is $path, $path2, 'scalar context';
   
   my $dll = TestDLL->new($path);  
   is $dll->name,    'foo',   'dll.name = foo';
@@ -159,10 +162,12 @@ subtest 'find_lib_or_exit' => sub {
   plan tests => 2;
   
   subtest 'found' => sub {
-    plan tests => 2;
-    my $path = eval { find_lib_or_exit( lib => 'foo' ) };
+    plan tests => 3;
+    my($path) = eval { find_lib_or_exit( lib => 'foo' ) };
     is $@, '', 'no exit';
     ok $path, "path = $path";
+    my $path2 = eval { find_lib_or_exit( lib => 'foo' ) };
+    is $path, $path2, 'scalar context';
   };
   
   subtest 'not found' => sub {
