@@ -233,7 +233,7 @@ an exception.
 
 sub assert_lib
 {
-  die 'library not found' unless check_lib(@_);
+  croak 'library not found' unless check_lib(@_);
 }
 
 =head2 check_lib_or_exit
