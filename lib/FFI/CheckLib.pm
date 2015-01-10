@@ -250,7 +250,7 @@ sub check_lib_or_exit
   {
     # TODO: could probably work on
     # diagnostics
-    warn "library not found";
+    warn 'library not found';
     exit;
   }
 }
