@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - add function find_lib_or_die
 
 0.05      2015-01-10 17:31:34 -0500
   - add function find_lib_or_exit (GH#2)

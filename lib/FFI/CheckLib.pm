@@ -298,6 +298,27 @@ sub find_lib_or_exit
   wantarray ? @libs : $libs[0];
 }
 
+=head2 find_lib_or_die
+
+[version 0.06]
+
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
+except that if the library is not found, it will die with an
+appropriate diagnostic.
+
+=cut
+
+sub find_lib_or_die
+{
+  my(@libs) = find_lib(@_);
+  unless(@libs)
+  {
+    croak $diagnostic || 'library not found';
+  }
+  return unless @libs;
+  wantarray ? @libs : $libs[0];
+}
+
 =head2 check_lib
 
 This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, except that

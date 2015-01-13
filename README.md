@@ -110,6 +110,14 @@ This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::Check
 except that if the library is not found, it will call exit with an
 appropriate diagnostic.
 
+## find\_lib\_or\_die
+
+\[version 0.06\]
+
+This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),
+except that if the library is not found, it will die with an
+appropriate diagnostic.
+
 ## check\_lib
 
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), except that
