@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.06      2015-01-13 12:07:19 -0500
   - add function find_lib_or_die
 
 0.05      2015-01-10 17:31:34 -0500
