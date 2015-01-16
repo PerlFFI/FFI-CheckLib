@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.07      2015-01-16 10:22:22 -0500
   - bugfix: forgot to export find_lib_or_die
 
 0.06      2015-01-13 12:07:19 -0500
