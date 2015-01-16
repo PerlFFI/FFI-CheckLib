@@ -6,7 +6,7 @@ use File::Spec;
 use Carp qw( croak carp );
 use base qw( Exporter );
 
-our @EXPORT = qw( find_lib assert_lib check_lib check_lib_or_exit find_lib_or_exit );
+our @EXPORT = qw( find_lib assert_lib check_lib check_lib_or_exit find_lib_or_exit find_lib_or_die );
 
 # ABSTRACT: Check that a library is available for FFI
 # VERSION

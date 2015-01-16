@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - bugfix: forgot to export find_lib_or_die
 
 0.06      2015-01-13 12:07:19 -0500
   - add function find_lib_or_die
