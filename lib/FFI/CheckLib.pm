@@ -29,12 +29,13 @@ This module checks whether a particular dynamic library is available for FFI to 
 It is modeled heavily on L<Devel::CheckLib>, but will find dynamic libraries
 even when development packages are not installed.  It also provides a 
 L<find_lib|FFI::CheckLib#find_lib> function that will return the full path to
-the found dynamic library, which can be feed directly into L<FFI::Raw>.
+the found dynamic library, which can be feed directly into L<FFI::Platypus> or
+L<FFI::Raw>.
 
-Although intended mainly for FFI modules via L<FFI::Raw> and similar, this module
-does not actually use any FFI to do its detection and probing.  This module does
-not have any non-core dependencies other than L<Module::Build> on Perl 5.20 and
-more recent.
+Although intended mainly for FFI modules via L<FFI::Platypus> and similar, this module
+does not actually use any FFI to do its detection and probing.  This modules does
+not have any non-core dependencies on Perls 5.8-5.18.  On Perl 5.20 and newer it has
+a configure, build and test dependency on L<Module::Build>.  
 
 =cut
 
@@ -113,35 +114,23 @@ A string or a list of symbol names that must be found.
 A code reference used to verify a library really is the one that you want.  It 
 should take two arguments, which is the name of the library and the full path to the
 library pathname.  It should return true if it is acceptable, and false otherwise.  
-You can use this in conjunction with L<FFI::Raw> to determine if it is going to meet
+You can use this in conjunction with L<FFI::Platypus> to determine if it is going to meet
 your needs.  Example:
 
  use FFI::CheckLib;
- use FFI::Raw;
+ use FFI::Platypus;
  
  my($lib) = find_lib(
    name => 'foo',
    verify => sub {
      my($name, $libpath) = @_;
      
-     my $new = FFI::Raw->new(
-       $lib, 'foo_new',
-       FFI::Raw::ptr,
-     );
+     my $ffi = FFI::Platypus->new;
+     $ffi->lib($libpath);
      
-     my $delete = FFI::Raw->new(
-       $lib, 'foo_delete',
-       FFI::Raw::void,
-       FFI::Raw::ptr,
-     );
+     my $f = $ffi->function('foo_version', [] => 'int');
      
-     # return true if new returns
-     # a pointer, not forgetting
-     # to free it on success.
-     my $ptr = $new->call();
-     return 0 unless $ptr;
-     $delete->call();
-     return 1;
+     return $f->call() >= 500; # we accept version 500 or better
    },
  );
 
