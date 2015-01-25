@@ -2,6 +2,9 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.08      2015-01-25 04:54:37 -0500
+  - Prefer FFI::Platypus in documentation over FFI::Raw
+
 0.07      2015-01-16 10:22:22 -0500
   - bugfix: forgot to export find_lib_or_die
 
