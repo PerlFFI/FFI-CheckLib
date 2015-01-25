@@ -326,7 +326,7 @@ sub check_lib
 
 =over 4
 
-=item L<FFI::Raw>
+=item L<FFI::Platypus>
 
 Call library functions dynamically without a compiler.
 
