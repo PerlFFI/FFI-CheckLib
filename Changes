@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Skip undef found in system library path. (thanks bakkiaraj gh#3)
+    On Windows this was causing a undef'd variable warning if %PATH% has a 
+    trailing ;
 
 0.08      2015-01-25 04:54:37 -0500
   - Prefer FFI::Platypus in documentation over FFI::Raw

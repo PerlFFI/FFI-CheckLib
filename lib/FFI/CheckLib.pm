@@ -161,7 +161,7 @@ sub find_lib
   
   my %missing = map { $_ => 1 } @{ $args{lib} };
   my %symbols = map { $_ => 1 } @{ $args{symbol} };
-  my @path = (@{ $args{libpath} }, @$system_path);
+  my @path = (@{ $args{libpath} }, (grep { defined } @$system_path));
   my @found;
 
   foreach my $path (@path)
