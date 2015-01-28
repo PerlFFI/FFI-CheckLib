@@ -5,6 +5,9 @@ pod_spelling_system:
   # (regardless of what spell check thinks)
   stopwords:
     - libpath
+    - Bakkiaraj
+    - Murugesan
+    - bakkiaraj
 
 pod_coverage:
   skip: 0

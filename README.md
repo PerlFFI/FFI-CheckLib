@@ -124,7 +124,11 @@ it returns true (1) on finding the appropriate libraries or false (0) otherwise.
 
 # AUTHOR
 
-Graham Ollis <plicease@cpan.org>
+Author: Graham Ollis <plicease@cpan.org>
+
+Contributors:
+
+Bakkiaraj Murugesan (bakkiaraj)
 
 # COPYRIGHT AND LICENSE
 
