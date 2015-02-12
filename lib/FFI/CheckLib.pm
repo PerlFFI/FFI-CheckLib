@@ -145,6 +145,12 @@ sub find_lib
   undef $diagnostic;
   croak "find_lib requires lib argument" unless defined $args{lib};
 
+  # _r is an undocumented option to recurively scan sub directories
+  # in attempt to help Alien::Base based FFI modules deal with blib
+  # installs.  It may be removed or altered in a future version without
+  # notice.
+  my $recursive = $args{_r} || 0;
+
   # make arguments be lists.
   foreach my $arg (qw( lib libpath symbol verify ))
   {
@@ -159,9 +165,12 @@ sub find_lib
     }
   }
   
+  my @libpath = @{ $args{libpath} };
+  @libpath = map { _recurse($_) } @libpath if $recursive;
+  
   my %missing = map { $_ => 1 } @{ $args{lib} };
   my %symbols = map { $_ => 1 } @{ $args{symbol} };
-  my @path = (@{ $args{libpath} }, (grep { defined } @$system_path));
+  my @path = (@libpath, (grep { defined } @$system_path));
   my @found;
 
   foreach my $path (@path)
@@ -233,6 +242,17 @@ sub find_lib
   return if %symbols;
   return $found[0] unless wantarray;
   return @found;
+}
+
+sub _recurse
+{
+  my($dir) = @_;
+  return unless -d $dir;
+  my $dh;
+  opendir $dh, $dir;
+  my @list = grep { -d $_ } map { File::Spec->catdir($dir, $_) } grep !/^\.\.?$/, readdir $dh;
+  closedir $dh;
+  ($dir, map { _recurse($_) } @list);
 }
 
 =head2 assert_lib

@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Add experimental and undocumented _r option intended for use
+    with Alien::Base only.
 
 0.09      2015-01-28 17:10:53 -0500
   - Skip undef found in system library path. (thanks bakkiaraj gh#3)
