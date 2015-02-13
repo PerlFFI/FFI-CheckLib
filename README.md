@@ -16,17 +16,18 @@ Check that a library is available for FFI
 
 # DESCRIPTION
 
-This module checks whether a particular dynamic library is available for FFI to use.
-It is modeled heavily on [Devel::CheckLib](https://metacpan.org/pod/Devel::CheckLib), but will find dynamic libraries
-even when development packages are not installed.  It also provides a 
-[find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib) function that will return the full path to
-the found dynamic library, which can be feed directly into [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) or
-[FFI::Raw](https://metacpan.org/pod/FFI::Raw).
+This module checks whether a particular dynamic library is available for 
+FFI to use. It is modeled heavily on [Devel::CheckLib](https://metacpan.org/pod/Devel::CheckLib), but will find 
+dynamic libraries even when development packages are not installed.  It 
+also provides a [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib) function that will 
+return the full path to the found dynamic library, which can be feed 
+directly into [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) or [FFI::Raw](https://metacpan.org/pod/FFI::Raw).
 
-Although intended mainly for FFI modules via [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) and similar, this module
-does not actually use any FFI to do its detection and probing.  This modules does
-not have any non-core dependencies on Perls 5.8-5.18.  On Perl 5.20 and newer it has
-a configure, build and test dependency on [Module::Build](https://metacpan.org/pod/Module::Build).  
+Although intended mainly for FFI modules via [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) and 
+similar, this module does not actually use any FFI to do its detection 
+and probing.  This modules does not have any non-core dependencies on 
+Perls 5.8-5.18.  On Perl 5.20 and newer it has a configure, build and 
+test dependency on [Module::Build](https://metacpan.org/pod/Module::Build).
 
 # FUNCTIONS
 
@@ -34,7 +35,8 @@ All of these take the same named parameters and are exported by default.
 
 ## find\_lib
 
-This will return a list of dynamic libraries, or empty list if none were found.
+This will return a list of dynamic libraries, or empty list if none were 
+found.
 
 \[version 0.05\]
 
@@ -42,9 +44,10 @@ If called in scalar context it will return the first library found.
 
 ### lib
 
-Must be either a string with the name of a single library or a reference to an array
-of strings of library names.  Depending on your platform, `CheckLib` will prepend
-`lib` or append `.dll` or `.so` when searching.
+Must be either a string with the name of a single library or a reference 
+to an array of strings of library names.  Depending on your platform, 
+`CheckLib` will prepend `lib` or append `.dll` or `.so` when 
+searching.
 
 ### libpath
 
@@ -56,11 +59,12 @@ A string or a list of symbol names that must be found.
 
 ### verify
 
-A code reference used to verify a library really is the one that you want.  It 
-should take two arguments, which is the name of the library and the full path to the
-library pathname.  It should return true if it is acceptable, and false otherwise.  
-You can use this in conjunction with [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) to determine if it is going to meet
-your needs.  Example:
+A code reference used to verify a library really is the one that you 
+want.  It should take two arguments, which is the name of the library 
+and the full path to the library pathname.  It should return true if it 
+is acceptable, and false otherwise.  You can use this in conjunction 
+with [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) to determine if it is going to meet your needs.  
+Example:
 
     use FFI::CheckLib;
     use FFI::Platypus;
@@ -79,38 +83,45 @@ your needs.  Example:
       },
     );
 
+### recursive
+
+Recursively search for libraires in any non-system paths (those provided 
+via `libpath` above).
+
 ## assert\_lib
 
-This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),
-except that instead of returning empty list of failure it throws
-an exception.
+This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), 
+except that instead of returning empty list of failure it throws an 
+exception.
 
 ## check\_lib\_or\_exit
 
-This behaves exactly the same as [assert\_lib](https://metacpan.org/pod/FFI::CheckLib#assert_lib),
-except that instead of dying, it warns (with exactly the same error message)
-and exists.  This is intended for use in `Makefile.PL` or `Build.PL`
+This behaves exactly the same as [assert\_lib](https://metacpan.org/pod/FFI::CheckLib#assert_lib), 
+except that instead of dying, it warns (with exactly the same error 
+message) and exists.  This is intended for use in `Makefile.PL` or 
+`Build.PL`
 
 ## find\_lib\_or\_exit
 
 \[version 0.05\]
 
-This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),
-except that if the library is not found, it will call exit with an
+This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), 
+except that if the library is not found, it will call exit with an 
 appropriate diagnostic.
 
 ## find\_lib\_or\_die
 
 \[version 0.06\]
 
-This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),
-except that if the library is not found, it will die with an
-appropriate diagnostic.
+This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), 
+except that if the library is not found, it will die with an appropriate 
+diagnostic.
 
 ## check\_lib
 
-This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), except that
-it returns true (1) on finding the appropriate libraries or false (0) otherwise.
+This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), 
+except that it returns true (1) on finding the appropriate libraries or 
+false (0) otherwise.
 
 # SEE ALSO
 

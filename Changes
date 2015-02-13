@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - New recursive option
+  - The experimental _r option will be keept beiefly then removed
 
 0.10      2015-02-12 18:52:54 -0500
   - Add experimental and undocumented _r option intended for use

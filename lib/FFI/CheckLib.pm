@@ -6,7 +6,14 @@ use File::Spec;
 use Carp qw( croak carp );
 use base qw( Exporter );
 
-our @EXPORT = qw( find_lib assert_lib check_lib check_lib_or_exit find_lib_or_exit find_lib_or_die );
+our @EXPORT = qw(
+  find_lib
+  assert_lib
+  check_lib
+  check_lib_or_exit
+  find_lib_or_exit
+  find_lib_or_die 
+);
 
 # ABSTRACT: Check that a library is available for FFI
 # VERSION
@@ -25,17 +32,18 @@ our @EXPORT = qw( find_lib assert_lib check_lib check_lib_or_exit find_lib_or_ex
 
 =head1 DESCRIPTION
 
-This module checks whether a particular dynamic library is available for FFI to use.
-It is modeled heavily on L<Devel::CheckLib>, but will find dynamic libraries
-even when development packages are not installed.  It also provides a 
-L<find_lib|FFI::CheckLib#find_lib> function that will return the full path to
-the found dynamic library, which can be feed directly into L<FFI::Platypus> or
-L<FFI::Raw>.
+This module checks whether a particular dynamic library is available for 
+FFI to use. It is modeled heavily on L<Devel::CheckLib>, but will find 
+dynamic libraries even when development packages are not installed.  It 
+also provides a L<find_lib|FFI::CheckLib#find_lib> function that will 
+return the full path to the found dynamic library, which can be feed 
+directly into L<FFI::Platypus> or L<FFI::Raw>.
 
-Although intended mainly for FFI modules via L<FFI::Platypus> and similar, this module
-does not actually use any FFI to do its detection and probing.  This modules does
-not have any non-core dependencies on Perls 5.8-5.18.  On Perl 5.20 and newer it has
-a configure, build and test dependency on L<Module::Build>.  
+Although intended mainly for FFI modules via L<FFI::Platypus> and 
+similar, this module does not actually use any FFI to do its detection 
+and probing.  This modules does not have any non-core dependencies on 
+Perls 5.8-5.18.  On Perl 5.20 and newer it has a configure, build and 
+test dependency on L<Module::Build>.
 
 =cut
 
@@ -89,7 +97,8 @@ All of these take the same named parameters and are exported by default.
 
 =head2 find_lib
 
-This will return a list of dynamic libraries, or empty list if none were found.
+This will return a list of dynamic libraries, or empty list if none were 
+found.
 
 [version 0.05]
 
@@ -97,9 +106,10 @@ If called in scalar context it will return the first library found.
 
 =head3 lib
 
-Must be either a string with the name of a single library or a reference to an array
-of strings of library names.  Depending on your platform, C<CheckLib> will prepend
-C<lib> or append C<.dll> or C<.so> when searching.
+Must be either a string with the name of a single library or a reference 
+to an array of strings of library names.  Depending on your platform, 
+C<CheckLib> will prepend C<lib> or append C<.dll> or C<.so> when 
+searching.
 
 =head3 libpath
 
@@ -111,11 +121,12 @@ A string or a list of symbol names that must be found.
 
 =head3 verify
 
-A code reference used to verify a library really is the one that you want.  It 
-should take two arguments, which is the name of the library and the full path to the
-library pathname.  It should return true if it is acceptable, and false otherwise.  
-You can use this in conjunction with L<FFI::Platypus> to determine if it is going to meet
-your needs.  Example:
+A code reference used to verify a library really is the one that you 
+want.  It should take two arguments, which is the name of the library 
+and the full path to the library pathname.  It should return true if it 
+is acceptable, and false otherwise.  You can use this in conjunction 
+with L<FFI::Platypus> to determine if it is going to meet your needs.  
+Example:
 
  use FFI::CheckLib;
  use FFI::Platypus;
@@ -134,6 +145,11 @@ your needs.  Example:
    },
  );
 
+=head3 recursive
+
+Recursively search for libraires in any non-system paths (those provided 
+via C<libpath> above).
+
 =cut
 
 my $diagnostic;
@@ -145,11 +161,7 @@ sub find_lib
   undef $diagnostic;
   croak "find_lib requires lib argument" unless defined $args{lib};
 
-  # _r is an undocumented option to recurively scan sub directories
-  # in attempt to help Alien::Base based FFI modules deal with blib
-  # installs.  It may be removed or altered in a future version without
-  # notice.
-  my $recursive = $args{_r} || 0;
+  my $recursive = $args{_r} || $args{recursive} || 0;
 
   # make arguments be lists.
   foreach my $arg (qw( lib libpath symbol verify ))
@@ -257,9 +269,9 @@ sub _recurse
 
 =head2 assert_lib
 
-This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
-except that instead of returning empty list of failure it throws
-an exception.
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
+except that instead of returning empty list of failure it throws an 
+exception.
 
 =cut
 
@@ -270,9 +282,10 @@ sub assert_lib
 
 =head2 check_lib_or_exit
 
-This behaves exactly the same as L<assert_lib|FFI::CheckLib#assert_lib>,
-except that instead of dying, it warns (with exactly the same error message)
-and exists.  This is intended for use in C<Makefile.PL> or C<Build.PL>
+This behaves exactly the same as L<assert_lib|FFI::CheckLib#assert_lib>, 
+except that instead of dying, it warns (with exactly the same error 
+message) and exists.  This is intended for use in C<Makefile.PL> or 
+C<Build.PL>
 
 =cut
 
@@ -289,8 +302,8 @@ sub check_lib_or_exit
 
 [version 0.05]
 
-This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
-except that if the library is not found, it will call exit with an
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
+except that if the library is not found, it will call exit with an 
 appropriate diagnostic.
 
 =cut
@@ -311,9 +324,9 @@ sub find_lib_or_exit
 
 [version 0.06]
 
-This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
-except that if the library is not found, it will die with an
-appropriate diagnostic.
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
+except that if the library is not found, it will die with an appropriate 
+diagnostic.
 
 =cut
 
@@ -330,8 +343,9 @@ sub find_lib_or_die
 
 =head2 check_lib
 
-This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, except that
-it returns true (1) on finding the appropriate libraries or false (0) otherwise.
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
+except that it returns true (1) on finding the appropriate libraries or 
+false (0) otherwise.
 
 =cut
 
