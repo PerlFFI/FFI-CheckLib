@@ -111,6 +111,10 @@ to an array of strings of library names.  Depending on your platform,
 C<CheckLib> will prepend C<lib> or append C<.dll> or C<.so> when 
 searching.
 
+[version 0.11]
+
+As a special case, if C<*> is specified then any libs found will match.
+
 =head3 libpath
 
 A string or array of additional paths to search for libraries.
@@ -147,6 +151,8 @@ Example:
 
 =head3 recursive
 
+[version 0.11]
+
 Recursively search for libraires in any non-system paths (those provided 
 via C<libpath> above).
 
@@ -180,10 +186,13 @@ sub find_lib
   my @libpath = @{ $args{libpath} };
   @libpath = map { _recurse($_) } @libpath if $recursive;
   
+  my $any = 1 if grep { $_ eq '*' } @{ $args{lib} };
   my %missing = map { $_ => 1 } @{ $args{lib} };
   my %symbols = map { $_ => 1 } @{ $args{symbol} };
   my @path = (@libpath, (grep { defined } @$system_path));
   my @found;
+  
+  delete $missing{'*'};
 
   foreach my $path (@path)
   {
@@ -195,7 +204,7 @@ sub find_lib
       sort { -l $a->[1] <=> -l $b->[1] }
       # filter out the items that do not match
       # the name that we are looking for
-      grep { $missing{$_->[0]} }
+      grep { $any || $missing{$_->[0]} }
       # get [ name, full_path ] mapping,
       # each entry is a 2 element list ref
       map { _matches($_,$path) } 
@@ -211,7 +220,7 @@ sub find_lib
     midloop:
     foreach my $lib (@maybe)
     {
-      next unless $missing{$lib->[0]};
+      next unless $any || $missing{$lib->[0]};
       
       foreach my $verify (@{ $args{verify} })
       {
