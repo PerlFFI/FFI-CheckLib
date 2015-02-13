@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.11      2015-02-13 08:45:23 -0500
   - New recursive option
   - The experimental _r option will be keept beiefly then removed
   - The lib option allows '*' to match any library
