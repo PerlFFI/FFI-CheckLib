@@ -119,6 +119,14 @@ As a special case, if C<*> is specified then any libs found will match.
 
 A string or array of additional paths to search for libraries.
 
+=head3 systempath
+
+[version 0.11]
+
+A string or array of system paths to search for instead of letting 
+L<FFI::CheckLib> determine the system path.  You can set this to C<[]> 
+in order to not search I<any> system paths.
+
 =head3 symbol
 
 A string or a list of symbol names that must be found.
@@ -183,13 +191,20 @@ sub find_lib
     }
   }
   
-  my @libpath = @{ $args{libpath} };
-  @libpath = map { _recurse($_) } @libpath if $recursive;
+  if(defined $args{systempath} && !ref($args{systempath}))
+  {
+    $args{systempath} = [ $args{systempath} ];
+  }
+  
+  my @path = @{ $args{libpath} };
+  @path = map { _recurse($_) } @path if $recursive;
+  push @path, grep { defined } defined $args{systempath}
+    ? @{ $args{systempath} }
+    : @$system_path;
   
   my $any = 1 if grep { $_ eq '*' } @{ $args{lib} };
   my %missing = map { $_ => 1 } @{ $args{lib} };
   my %symbols = map { $_ => 1 } @{ $args{symbol} };
-  my @path = (@libpath, (grep { defined } @$system_path));
   my @found;
   
   delete $missing{'*'};
