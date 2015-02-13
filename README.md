@@ -49,9 +49,21 @@ to an array of strings of library names.  Depending on your platform,
 `CheckLib` will prepend `lib` or append `.dll` or `.so` when 
 searching.
 
+\[version 0.11\]
+
+As a special case, if `*` is specified then any libs found will match.
+
 ### libpath
 
 A string or array of additional paths to search for libraries.
+
+### systempath
+
+\[version 0.11\]
+
+A string or array of system paths to search for instead of letting 
+[FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib) determine the system path.  You can set this to `[]` 
+in order to not search _any_ system paths.
 
 ### symbol
 
@@ -85,7 +97,9 @@ Example:
 
 ### recursive
 
-Recursively search for libraires in any non-system paths (those provided 
+\[version 0.11\]
+
+Recursively search for libraries in any non-system paths (those provided 
 via `libpath` above).
 
 ## assert\_lib

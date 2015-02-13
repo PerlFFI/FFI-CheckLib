@@ -8,7 +8,7 @@ use Test::More tests => 2;
 BEGIN { $ENV{FFI_CHECKLIB_TEST_OS} = 'linux' }
 use FFI::CheckLib;
 
-#$FFI::CheckLib::system_path = [];
+$FFI::CheckLib::system_path = [];
 
 my @libs = find_lib(
   libpath   => File::Spec->catdir( 't', 'fs', 'unix', 'foo-1.00'  ),

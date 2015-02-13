@@ -161,7 +161,7 @@ Example:
 
 [version 0.11]
 
-Recursively search for libraires in any non-system paths (those provided 
+Recursively search for libraries in any non-system paths (those provided 
 via C<libpath> above).
 
 =cut
