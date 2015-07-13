@@ -21,3 +21,4 @@ perl:
 script:
   - dzil test -v
 
+sudo: false
