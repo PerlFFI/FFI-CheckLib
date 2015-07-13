@@ -14,7 +14,7 @@ do {
     my($filename, $flags) = @_;
     return undef unless -e $filename;
     my $libref = scalar @libref;
-    @libref[$libref] = TestDLL->new($filename);
+    $libref[$libref] = TestDLL->new($filename);
     $libref;
   }
 
