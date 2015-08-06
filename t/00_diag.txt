@@ -1,2 +1,2 @@
-Module::Build
+ExtUtils::MakeMaker
 Test::More
