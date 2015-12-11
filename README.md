@@ -1,4 +1,4 @@
-# FFI::CheckLib
+# FFI::CheckLib [![Build Status](https://secure.travis-ci.org/plicease/FFI-CheckLib.png)](http://travis-ci.org/plicease/FFI-CheckLib)
 
 Check that a library is available for FFI
 
@@ -149,7 +149,7 @@ false (0) otherwise.
 
 # AUTHOR
 
-Author: Graham Ollis <plicease@cpan.org>
+Author: Graham Ollis &lt;plicease@cpan.org>
 
 Contributors:
 
