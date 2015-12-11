@@ -1,12 +1,10 @@
 language: perl
+sudo: false
 
-# remember need at least one install command, even if there are no
-# prereqs, else travis will try to install deps using cpanm
-# which is not what we want since this is a Dist::Zilla dist.
 install:
-  - cpanm -n Dist::Zilla
+  - perlbrew list
   - dzil authordeps --missing | cpanm -n
-  - cpanm -n Test::CPAN::Changes Test::EOL Test::Fixme Test::NoTabs Test::Pod::Spelling::CommonMistakes Test::Spelling Test::Strict Test::Version Test::Vars || true
+  - dzil listdeps --missing | cpanm -n
 
 perl:
   - "5.8"
@@ -17,8 +15,7 @@ perl:
   - "5.18"
   - "5.20"
   - "5.20"
+  - "5.22"
 
 script:
   - dzil test -v
-
-sudo: false
