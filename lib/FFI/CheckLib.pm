@@ -72,6 +72,13 @@ if($os eq 'cygwin')
 {
   push @$pattern, qr{^cyg(.*?)(?:-[0-9]+)?\.dll$};
 }
+elsif($os eq 'msys')
+{
+  # doesn't seem as though msys uses psudo libfoo.so files
+  # in the way that cygwin sometimes does.  we can revisit
+  # this if we find otherwise.
+  $pattern = [ qr{^msys-(.*?)(?:-[0-9]+)?\.dll$} ];
+}
 elsif($os eq 'MSWin32')
 {
   $pattern = [ qr{^(?:lib)?(.*?)(?:-[0-9]+)?\.dll$} ];

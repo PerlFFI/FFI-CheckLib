@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Add MSYS2 support
 
 0.14      2015-09-09 08:25:15 -0400
   - Version identical to 0.12
