@@ -218,7 +218,7 @@ sub find_lib
 
   foreach my $path (@path)
   {
-    next unless -d $path;
+    next unless (defined $path || -d $path);
     my $dh;
     opendir $dh, $path;
     my @maybe = 
