@@ -153,6 +153,8 @@ Contributors:
 
 Bakkiaraj Murugesan (bakkiaraj)
 
+Dan Book (grinnz, DBOOK)
+
 # COPYRIGHT AND LICENSE
 
 This software is copyright (c) 2014 by Graham Ollis.
