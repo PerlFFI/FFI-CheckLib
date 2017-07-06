@@ -25,9 +25,7 @@ directly into [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) or [FFI::R
 
 Although intended mainly for FFI modules via [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) and 
 similar, this module does not actually use any FFI to do its detection 
-and probing.  This modules does not have any non-core dependencies on 
-Perls 5.8-5.18.  On Perl 5.20 and newer it has a configure, build and 
-test dependency on [Module::Build](https://metacpan.org/pod/Module::Build).
+and probing.  This module does not have any non-core dependencies.
 
 # FUNCTIONS
 
