@@ -49,7 +49,7 @@ our $system_path;
 our $os = $ENV{FFI_CHECKLIB_TEST_OS} || $^O;
 our $dyna_loader = 'DynaLoader';
 
-if($os eq 'MSWin32')
+if($os eq 'MSWin32' || $os eq 'msys')
 {
   $system_path = eval q{
     use Env qw( @PATH );
