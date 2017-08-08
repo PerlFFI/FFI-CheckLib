@@ -1,10 +1,4 @@
-use strict;
-use warnings;
-use FindBin ();
-use File::Spec;
-use lib $FindBin::Bin;
-use testlib;
-use Test::More tests => 2;
+use Test2::V0 -no_srand => 1;
 BEGIN { $ENV{FFI_CHECKLIB_TEST_OS} = 'linux' }
 use FFI::CheckLib;
 
@@ -18,3 +12,5 @@ my @libs = find_lib(
 
 is scalar(@libs), 1, "libs = @libs";
 like $libs[0], qr{libfoo.so}, "libs[0] = $libs[0]";
+
+done_testing;

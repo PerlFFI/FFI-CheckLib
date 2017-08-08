@@ -1,10 +1,4 @@
-use strict;
-use warnings;
-#use FindBin ();
-use File::Spec;
-#use lib $FindBin::Bin;
-#use testlib;
-use Test::More tests => 2;
+use Test2::V0 -no_srand => 1;
 BEGIN { $ENV{FFI_CHECKLIB_TEST_OS} = 'linux' }
 use FFI::CheckLib;
 
@@ -19,4 +13,6 @@ my @libs = find_lib(
 is scalar(@libs), 3, "libs = @libs";
 
 my @fn = sort map { (File::Spec->splitpath($_))[2] } @libs;
-is_deeply \@fn, [qw( libbar.so libbaz.so libfoo.so )], "fn = @fn";
+is \@fn, [qw( libbar.so libbaz.so libfoo.so )], "fn = @fn";
+
+done_testing;
