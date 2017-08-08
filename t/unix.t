@@ -23,8 +23,8 @@ BEGIN {
 do {
   no warnings 'once';
   $FFI::CheckLib::system_path = [ 
-    File::Spec->catdir($FindBin::Bin, qw( fs unix usr lib )),
-    File::Spec->catdir($FindBin::Bin, qw( fs unix lib )),
+    'corpus/unix/usr/lib',
+    'corpus/unix/lib',
   ];
   
   $FFI::CheckLib::dyna_loader = 'MyDynaLoader';
@@ -75,7 +75,7 @@ subtest 'find_lib list' => sub {
 };
 
 subtest 'find_lib libpath' => sub {
-  my($path) = find_lib( lib => 'foo', libpath => File::Spec->catdir($FindBin::Bin, qw( fs unix custom )));
+  my($path) = find_lib( lib => 'foo', libpath => 'corpus/unix/custom' );
   ok -r $path, "path = $path is readable";
   my $dll = TestDLL->new($path);  
   is $dll->name,    'foo',    'dll.name = foo';
@@ -83,7 +83,7 @@ subtest 'find_lib libpath' => sub {
 };
 
 subtest 'find_lib libpath (list)' => sub {
-  my($path) = find_lib( lib => 'foo', libpath => [File::Spec->catdir($FindBin::Bin, qw( fs unix custom ))]);
+  my($path) = find_lib( lib => 'foo', libpath => ['corpus/unix/custom']);
   ok -r $path, "path = $path is readable";
   my $dll = TestDLL->new($path);  
   is $dll->name,    'foo',    'dll.name = foo';

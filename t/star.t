@@ -11,7 +11,7 @@ use FFI::CheckLib;
 $FFI::CheckLib::system_path = [];
 
 my @libs = find_lib(
-  libpath   => File::Spec->catdir( 't', 'fs', 'unix', 'foo-1.00'  ),
+  libpath   => File::Spec->catdir( 'corpus', 'unix', 'foo-1.00'  ),
   lib       => '*',
   recursive => 1,
 );
