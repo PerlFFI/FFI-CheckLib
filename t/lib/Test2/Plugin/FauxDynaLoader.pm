@@ -74,10 +74,4 @@ sub name { shift->{name} }
 sub version { shift->{version} }
 sub has_symbol { $_[0]->{symbols}->{$_[1]} }
 
-
-package
-  main;
-
-*CORE::GLOBAL::exit = sub { die "::exit::" };
-
 1;

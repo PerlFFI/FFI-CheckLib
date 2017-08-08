@@ -2,19 +2,9 @@ use lib 't/lib';
 use Test2::V0 -no_srand => 1;
 use Test2::Plugin::FauxOS 'linux';
 use Test2::Plugin::FauxDynaLoader;
+use Test2::Tools::NoteStderr qw( note_stderr );
+use Test::Exit;
 use FFI::CheckLib;
-
-BEGIN {
-  eval q{
-    use Capture::Tiny qw( capture_stderr );
-  };
-  if($@)
-  {
-    eval q{
-      sub capture_stderr (&) { $_[0]->() };
-    };
-  }
-}
 
 $FFI::CheckLib::system_path =
 $FFI::CheckLib::system_path = [ 
@@ -129,8 +119,7 @@ subtest 'check_lib_or_exit' => sub {
   };
   
   subtest 'not found' => sub {
-    eval { capture_stderr { check_lib_or_exit( lib => 'foobar') } };
-    like $@, qr{::exit::}, 'called exit'; 
+    exits_zero { note_stderr { check_lib_or_exit( lib => 'foobar') } };
   };
 
 };
@@ -146,8 +135,7 @@ subtest 'find_lib_or_exit' => sub {
   };
   
   subtest 'not found' => sub {
-    eval { capture_stderr { find_lib_or_exit( lib => 'foobar') } };
-    like $@, qr{::exit::}, 'called exit'; 
+    exits_zero { note_stderr { find_lib_or_exit( lib => 'foobar') } };
   };
 
 };
@@ -187,7 +175,5 @@ subtest 'verify' => sub {
   is $dll->version, '2.3.4', 'dll.version = 2.3.4';
 
 };
-
-note "os = $FFI::CheckLib::os";
 
 done_testing;

@@ -42,7 +42,7 @@ directly into L<FFI::Platypus> or L<FFI::Raw>.
 Although intended mainly for FFI modules via L<FFI::Platypus> and 
 similar, this module does not actually use any FFI to do its detection 
 and probing.  This module does not have any non-core runtime dependencies.
-The test suite does depend on L<Test2::Suite>.
+The test suite does depend on L<Test2::Suite> and L<Test::Exit>.
 
 =cut
 
