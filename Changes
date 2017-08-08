@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Tentative support for msys
 
 0.15      2016-05-05 19:53:32 -0400
   - Add MSYS2 support
