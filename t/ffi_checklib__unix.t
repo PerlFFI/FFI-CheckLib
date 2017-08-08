@@ -16,13 +16,11 @@ BEGIN {
   }
 }
 
-do {
-  no warnings 'once';
-  $FFI::CheckLib::system_path = [ 
-    'corpus/unix/usr/lib',
-    'corpus/unix/lib',
-  ];
-};
+$FFI::CheckLib::system_path =
+$FFI::CheckLib::system_path = [ 
+  'corpus/unix/usr/lib',
+  'corpus/unix/lib',
+];
 
 subtest 'find_lib (good)' => sub {
   my($path) = find_lib( lib => 'foo' );
