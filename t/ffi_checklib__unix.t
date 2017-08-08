@@ -1,7 +1,7 @@
 use lib 't/lib';
 use Test2::V0 -no_srand => 1;
 use Test2::Plugin::FauxOS 'linux';
-use testlib;
+use Test2::Plugin::FauxDynaLoader;
 use FFI::CheckLib;
 
 BEGIN {
@@ -22,8 +22,6 @@ do {
     'corpus/unix/usr/lib',
     'corpus/unix/lib',
   ];
-  
-  $FFI::CheckLib::dyna_loader = 'MyDynaLoader';
 };
 
 subtest 'find_lib (good)' => sub {

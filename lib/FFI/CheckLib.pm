@@ -48,7 +48,7 @@ The test suite does depend on L<Test2::Suite>.
 
 our $system_path;
 our $os ||= $^O;
-our $dyna_loader = 'DynaLoader';
+our $dyna_loader ||= 'DynaLoader';
 
 if($os eq 'MSWin32' || $os eq 'msys')
 {

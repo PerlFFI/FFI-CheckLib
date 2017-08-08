@@ -1,8 +1,16 @@
-package
-  MyDynaLoader;
+package Test2::Plugin::FauxDynaLoader;
 
 use strict;
 use warnings;
+
+sub import
+{
+  die "you must use Test2::Plugin::FauxDynaLoader prior to FFI::CheckLib" if $INC{'FFI/CheckLib.pm'};
+  $FFI::CheckLib::dyna_loader = 'MyDynaLoader';
+}
+
+package
+  MyDynaLoader;
 
 $INC{'MyDynaLoader.pm'} = __FILE__;
 
