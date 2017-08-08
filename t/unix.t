@@ -1,7 +1,7 @@
 use lib 't/lib';
 use Test2::V0 -no_srand => 1;
+use Test2::Plugin::FauxOS 'linux';
 use testlib;
-BEGIN { $ENV{FFI_CHECKLIB_TEST_OS} = 'linux' }
 use FFI::CheckLib;
 
 BEGIN {
@@ -191,5 +191,7 @@ subtest 'verify' => sub {
   is $dll->version, '2.3.4', 'dll.version = 2.3.4';
 
 };
+
+note "os = $FFI::CheckLib::os";
 
 done_testing;

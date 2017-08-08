@@ -25,7 +25,8 @@ directly into [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) or [FFI::R
 
 Although intended mainly for FFI modules via [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) and 
 similar, this module does not actually use any FFI to do its detection 
-and probing.  This module does not have any non-core dependencies.
+and probing.  This module does not have any non-core runtime dependencies.
+The test suite does depend on [Test2::Suite](https://metacpan.org/pod/Test2::Suite).
 
 # FUNCTIONS
 

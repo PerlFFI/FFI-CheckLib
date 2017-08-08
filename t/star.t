@@ -1,5 +1,6 @@
+use lib 't/lib';
 use Test2::V0 -no_srand => 1;
-BEGIN { $ENV{FFI_CHECKLIB_TEST_OS} = 'linux' }
+use Test2::Plugin::FauxOS 'linux';
 use FFI::CheckLib;
 
 $FFI::CheckLib::system_path = [];

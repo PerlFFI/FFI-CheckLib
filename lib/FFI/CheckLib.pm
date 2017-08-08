@@ -41,12 +41,13 @@ directly into L<FFI::Platypus> or L<FFI::Raw>.
 
 Although intended mainly for FFI modules via L<FFI::Platypus> and 
 similar, this module does not actually use any FFI to do its detection 
-and probing.  This module does not have any non-core dependencies.
+and probing.  This module does not have any non-core runtime dependencies.
+The test suite does depend on L<Test2::Suite>.
 
 =cut
 
 our $system_path;
-our $os = $ENV{FFI_CHECKLIB_TEST_OS} || $^O;
+our $os ||= $^O;
 our $dyna_loader = 'DynaLoader';
 
 if($os eq 'MSWin32' || $os eq 'msys')
