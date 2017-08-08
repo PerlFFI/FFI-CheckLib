@@ -3,7 +3,6 @@ use Test2::V0 -no_srand => 1;
 use Test2::Plugin::FauxOS 'linux';
 use Test2::Plugin::FauxDynaLoader;
 use Test2::Tools::NoteStderr qw( note_stderr );
-use Test::Exit;
 use FFI::CheckLib;
 
 $FFI::CheckLib::system_path =
@@ -109,35 +108,6 @@ subtest 'check_lib' => sub {
   
   is check_lib( lib => 'foo' ), 1, 'found';
   is check_lib( lib => 'foobar'), 0, 'not found';
-};
-
-subtest 'check_lib_or_exit' => sub {
-  
-  subtest 'found' => sub {
-    eval { check_lib_or_exit( lib => 'foo' ) };
-    is $@, '', 'no exit';
-  };
-  
-  subtest 'not found' => sub {
-    exits_zero { note_stderr { check_lib_or_exit( lib => 'foobar') } };
-  };
-
-};
-
-subtest 'find_lib_or_exit' => sub {
-  
-  subtest 'found' => sub {
-    my($path) = eval { find_lib_or_exit( lib => 'foo' ) };
-    is $@, '', 'no exit';
-    ok $path, "path = $path";
-    my $path2 = eval { find_lib_or_exit( lib => 'foo' ) };
-    is $path, $path2, 'scalar context';
-  };
-  
-  subtest 'not found' => sub {
-    exits_zero { note_stderr { find_lib_or_exit( lib => 'foobar') } };
-  };
-
 };
 
 subtest 'verify bad' => sub {
