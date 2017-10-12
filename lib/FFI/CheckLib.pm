@@ -267,7 +267,7 @@ sub find_lib
 
   if(%missing)
   {
-    my @missing = keys %missing;
+    my @missing = sort keys %missing;
     if(@missing > 1)
     { $diagnostic = "libraries not found: @missing" }
     else
@@ -275,8 +275,11 @@ sub find_lib
   }
   elsif(%symbols)
   {
-    my @missing = keys %symbols;
-    $diagnostic = "symbols not found: @missing";
+    my @missing = sort keys %symbols;
+    if(@missing > 1)
+    { $diagnostic = "symbols not found: @missing" }
+    else
+    { $diagnostic = "symbol not found: @missing" }
   }
   
   return if %symbols;
