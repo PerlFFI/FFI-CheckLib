@@ -34,6 +34,8 @@ All of these take the same named parameters and are exported by default.
 
 ## find\_lib
 
+    my(@libs) = find_lib(%args);
+
 This will return a list of dynamic libraries, or empty list if none were 
 found.
 
@@ -41,73 +43,79 @@ found.
 
 If called in scalar context it will return the first library found.
 
-### lib
+Arguments are key value pairs with these keys:
 
-Must be either a string with the name of a single library or a reference 
-to an array of strings of library names.  Depending on your platform, 
-`CheckLib` will prepend `lib` or append `.dll` or `.so` when 
-searching.
+- lib
 
-\[version 0.11\]
+    Must be either a string with the name of a single library or a reference 
+    to an array of strings of library names.  Depending on your platform, 
+    `CheckLib` will prepend `lib` or append `.dll` or `.so` when 
+    searching.
 
-As a special case, if `*` is specified then any libs found will match.
+    \[version 0.11\]
 
-### libpath
+    As a special case, if `*` is specified then any libs found will match.
 
-A string or array of additional paths to search for libraries.
+- libpath
 
-### systempath
+    A string or array of additional paths to search for libraries.
 
-\[version 0.11\]
+- systempath
 
-A string or array of system paths to search for instead of letting 
-[FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib) determine the system path.  You can set this to `[]` 
-in order to not search _any_ system paths.
+    \[version 0.11\]
 
-### symbol
+    A string or array of system paths to search for instead of letting 
+    [FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib) determine the system path.  You can set this to `[]` 
+    in order to not search _any_ system paths.
 
-A string or a list of symbol names that must be found.
+- symbol
 
-### verify
+    A string or a list of symbol names that must be found.
 
-A code reference used to verify a library really is the one that you 
-want.  It should take two arguments, which is the name of the library 
-and the full path to the library pathname.  It should return true if it 
-is acceptable, and false otherwise.  You can use this in conjunction 
-with [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) to determine if it is going to meet your needs.  
-Example:
+- verify
 
-    use FFI::CheckLib;
-    use FFI::Platypus;
-    
-    my($lib) = find_lib(
-      name => 'foo',
-      verify => sub {
-        my($name, $libpath) = @_;
+    A code reference used to verify a library really is the one that you 
+    want.  It should take two arguments, which is the name of the library 
+    and the full path to the library pathname.  It should return true if it 
+    is acceptable, and false otherwise.  You can use this in conjunction 
+    with [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) to determine if it is going to meet your needs.  
+    Example:
+
+        use FFI::CheckLib;
+        use FFI::Platypus;
         
-        my $ffi = FFI::Platypus->new;
-        $ffi->lib($libpath);
-        
-        my $f = $ffi->function('foo_version', [] => 'int');
-        
-        return $f->call() >= 500; # we accept version 500 or better
-      },
-    );
+        my($lib) = find_lib(
+          name => 'foo',
+          verify => sub {
+            my($name, $libpath) = @_;
+            
+            my $ffi = FFI::Platypus->new;
+            $ffi->lib($libpath);
+            
+            my $f = $ffi->function('foo_version', [] => 'int');
+            
+            return $f->call() >= 500; # we accept version 500 or better
+          },
+        );
 
-### recursive
+- recursive
 
-\[version 0.11\]
+    \[version 0.11\]
 
-Recursively search for libraries in any non-system paths (those provided 
-via `libpath` above).
+    Recursively search for libraries in any non-system paths (those provided 
+    via `libpath` above).
 
 ## assert\_lib
+
+    assert_lib(%args);
 
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), 
 except that instead of returning empty list of failure it throws an 
 exception.
 
 ## check\_lib\_or\_exit
+
+    check_lib_or_exit(%args);
 
 This behaves exactly the same as [assert\_lib](https://metacpan.org/pod/FFI::CheckLib#assert_lib), 
 except that instead of dying, it warns (with exactly the same error 
@@ -118,6 +126,8 @@ message) and exists.  This is intended for use in `Makefile.PL` or
 
 \[version 0.05\]
 
+    my(@libs) = find_lib_or_exit(%args);
+
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), 
 except that if the library is not found, it will call exit with an 
 appropriate diagnostic.
@@ -126,11 +136,15 @@ appropriate diagnostic.
 
 \[version 0.06\]
 
+    my(@libs) = find_lib_or_die(%args);
+
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), 
 except that if the library is not found, it will die with an appropriate 
 diagnostic.
 
 ## check\_lib
+
+    my $bool = check_lib(%args);
 
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib), 
 except that it returns true (1) on finding the appropriate libraries or 

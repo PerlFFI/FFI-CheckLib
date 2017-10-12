@@ -107,6 +107,8 @@ All of these take the same named parameters and are exported by default.
 
 =head2 find_lib
 
+ my(@libs) = find_lib(%args);
+
 This will return a list of dynamic libraries, or empty list if none were 
 found.
 
@@ -114,7 +116,11 @@ found.
 
 If called in scalar context it will return the first library found.
 
-=head3 lib
+Arguments are key value pairs with these keys:
+
+=over 4
+
+=item lib
 
 Must be either a string with the name of a single library or a reference 
 to an array of strings of library names.  Depending on your platform, 
@@ -125,11 +131,11 @@ searching.
 
 As a special case, if C<*> is specified then any libs found will match.
 
-=head3 libpath
+=item libpath
 
 A string or array of additional paths to search for libraries.
 
-=head3 systempath
+=item systempath
 
 [version 0.11]
 
@@ -137,11 +143,11 @@ A string or array of system paths to search for instead of letting
 L<FFI::CheckLib> determine the system path.  You can set this to C<[]> 
 in order to not search I<any> system paths.
 
-=head3 symbol
+=item symbol
 
 A string or a list of symbol names that must be found.
 
-=head3 verify
+=item verify
 
 A code reference used to verify a library really is the one that you 
 want.  It should take two arguments, which is the name of the library 
@@ -167,12 +173,14 @@ Example:
    },
  );
 
-=head3 recursive
+=item recursive
 
 [version 0.11]
 
 Recursively search for libraries in any non-system paths (those provided 
 via C<libpath> above).
+
+=back
 
 =cut
 
@@ -315,6 +323,8 @@ sub _recurse
 
 =head2 assert_lib
 
+ assert_lib(%args);
+
 This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
 except that instead of returning empty list of failure it throws an 
 exception.
@@ -327,6 +337,8 @@ sub assert_lib
 }
 
 =head2 check_lib_or_exit
+
+ check_lib_or_exit(%args);
 
 This behaves exactly the same as L<assert_lib|FFI::CheckLib#assert_lib>, 
 except that instead of dying, it warns (with exactly the same error 
@@ -347,6 +359,8 @@ sub check_lib_or_exit
 =head2 find_lib_or_exit
 
 [version 0.05]
+
+ my(@libs) = find_lib_or_exit(%args);
 
 This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
 except that if the library is not found, it will call exit with an 
@@ -370,6 +384,8 @@ sub find_lib_or_exit
 
 [version 0.06]
 
+ my(@libs) = find_lib_or_die(%args);
+
 This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
 except that if the library is not found, it will die with an appropriate 
 diagnostic.
@@ -388,6 +404,8 @@ sub find_lib_or_die
 }
 
 =head2 check_lib
+
+ my $bool = check_lib(%args);
 
 This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
 except that it returns true (1) on finding the appropriate libraries or 
