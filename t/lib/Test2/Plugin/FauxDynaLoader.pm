@@ -2,43 +2,35 @@ package Test2::Plugin::FauxDynaLoader;
 
 use strict;
 use warnings;
+use Test2::Mock;
+use DynaLoader;
 
-sub import
+our $mock = Test2::Mock->new(
+  class => 'DynaLoader',
+);
+
 {
-  die "you must use Test2::Plugin::FauxDynaLoader prior to FFI::CheckLib" if $INC{'FFI/CheckLib.pm'};
-  $FFI::CheckLib::dyna_loader = 'MyDynaLoader';
-}
-
-package
-  MyDynaLoader;
-
-$INC{'MyDynaLoader.pm'} = __FILE__;
-
-do {
   my @libref = ('null');
 
-  sub dl_load_file
-  {
+  $mock->override(dl_load_file => sub {
     my($filename, $flags) = @_;
     return undef unless -e $filename;
     my $libref = scalar @libref;
     $libref[$libref] = TestDLL->new($filename);
     $libref;
-  }
+  });
 
-  sub dl_unload_file
-  {
+  $mock->override(dl_unload_file => sub {
     my($libref) = @_;
     delete $libref[$libref];
-  }
+  });
 
-  sub dl_find_symbol
-  {
+  $mock->override(dl_find_symbol => sub {
     my($libref, $symbol) = @_;
     my $lib = $libref[$libref];
     $lib->has_symbol($symbol);
-  }
-};
+  });
+}
 
 package
   TestDLL;

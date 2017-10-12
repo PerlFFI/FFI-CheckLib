@@ -48,7 +48,6 @@ The test suite does depend on L<Test2::Suite>.
 
 our $system_path;
 our $os ||= $^O;
-our $dyna_loader ||= 'DynaLoader';
 
 if($os eq 'MSWin32' || $os eq 'msys')
 {
@@ -253,11 +252,10 @@ sub find_lib
       foreach my $symbol (keys %symbols)
       {
         next unless do {
-          require "$dyna_loader.pm";
-          no strict 'refs';
-          my $dll = &{"$dyna_loader\::dl_load_file"}($lib->[1],0);
-          my $ok = &{"$dyna_loader\::dl_find_symbol"}($dll, $symbol) ? 1 : 0;
-          &{"$dyna_loader\::dl_unload_file"}($dll);
+          require DynaLoader;
+          my $dll = DynaLoader::dl_load_file($lib->[1],0);
+          my $ok  = DynaLoader::dl_find_symbol($dll, $symbol) ? 1 : 0;
+                    DynaLoader::dl_unload_file($dll);
           $ok;
         };
         delete $symbols{$symbol};
