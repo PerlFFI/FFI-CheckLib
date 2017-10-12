@@ -1,16 +1,19 @@
-package Test2::Plugin::FauxDynaLoader;
+package Test2::Tools::FauxDynaLoader;
 
 use strict;
 use warnings;
 use Test2::Mock;
 use DynaLoader;
+use base qw( Exporter );
 
-our $mock = Test2::Mock->new(
-  class => 'DynaLoader',
-);
+our @EXPORT = qw( mock_dynaloader );
 
-{
+sub mock_dynaloader {
   my @libref = ('null');
+
+  my $mock = Test2::Mock->new(
+    class => 'DynaLoader',
+  );
 
   $mock->override(dl_load_file => sub {
     my($filename, $flags) = @_;
@@ -30,6 +33,8 @@ our $mock = Test2::Mock->new(
     my $lib = $libref[$libref];
     $lib->has_symbol($symbol);
   });
+  
+  $mock;
 }
 
 package

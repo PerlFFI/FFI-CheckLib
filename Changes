@@ -1,6 +1,20 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Filter out broken and recursive symlinks
+  - Better handle symlinked .so files on platforms that support that.
+
+    Previously, we preferred the longer .so names (ie, libfoo.so.1.2.3)
+    over the shorter .so names (libfoo.so) since the latter is usually a
+    symlink, and the former may have useful "version" information in the
+    filename.  That is a problem when a system is using symlinks to indicate
+    a preference, (for example, if there are both libfoo.so.1.2.3,
+    libfoo.so.1.2.4 and libfoo.so is a symlink to one of those).
+    
+    Now we still endevour to return the long .so name, but use the short
+    name to see which one is preferred by the operating system, or user.
+   
+  - Slightly more consistent diagnostic messages.
 
 0.16      2017-08-08 10:24:49 -0400
   - Tentative support for msys

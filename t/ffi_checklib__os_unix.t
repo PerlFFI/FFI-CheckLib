@@ -1,15 +1,18 @@
 use lib 't/lib';
 use Test2::V0 -no_srand => 1;
 use Test2::Plugin::FauxOS 'linux';
-use Test2::Plugin::FauxDynaLoader;
+use Test2::Tools::FauxDynaLoader;
 use Test2::Tools::NoteStderr qw( note_stderr );
 use FFI::CheckLib;
+use File::Basename qw( basename );
 
 $FFI::CheckLib::system_path =
 $FFI::CheckLib::system_path = [ 
   'corpus/unix/usr/lib',
   'corpus/unix/lib',
 ];
+
+my $mock = mock_dynaloader;
 
 subtest 'find_lib (good)' => sub {
   my($path) = find_lib( lib => 'foo' );
@@ -143,6 +146,44 @@ subtest 'verify' => sub {
   my $dll = TestDLL->new($lib);
   is $dll->name, 'foo', 'dll.name = foo';
   is $dll->version, '2.3.4', 'dll.version = 2.3.4';
+
+};
+
+subtest 'symlink' => sub {
+
+  skip_all 'Test requires a system with proper symlinks'
+    unless -l 'corpus/unix/usr/lib/libxor.so'
+    &&     readlink('corpus/unix/usr/lib/libxor.so');
+
+  subtest 'multiple versions of the same lib' => sub {
+
+    my($lib) = find_lib(
+      lib => 'xor',
+    );
+  
+    is(basename($lib), 'libxor.so.1.2.4');
+  
+  };
+  
+  subtest 'broken symlink' => sub {
+  
+    my($lib) = find_lib(
+      lib => 'ganon',
+    );
+    
+    is($lib, undef);
+  
+  };
+
+  subtest 'infinite recurse symlink' => sub {
+  
+    my($lib) = find_lib(
+      lib => 'link',
+    );
+    
+    is($lib, undef);
+  
+  };
 
 };
 

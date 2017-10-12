@@ -1,7 +1,7 @@
 use lib 't/lib';
 use Test2::V0 -no_srand => 1;
 use Test2::Plugin::FauxOS 'cygwin';
-use Test2::Plugin::FauxDynaLoader;
+use Test2::Tools::FauxDynaLoader;
 use Test2::Tools::NoteStderr qw( note_stderr );
 use FFI::CheckLib;
 
@@ -11,6 +11,8 @@ $FFI::CheckLib::system_path = [
   'corpus/unix/usr/lib',
   'corpus/unix/lib',
 ];
+
+my $mock = mock_dynaloader;
 
 subtest 'find_lib (good)' => sub {
   my($path) = find_lib( lib => 'dinosaur' );

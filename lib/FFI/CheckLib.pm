@@ -220,23 +220,18 @@ sub find_lib
     my $dh;
     opendir $dh, $path;
     my @maybe = 
-      # prefer non-symlinks
-      sort { -l $a->[1] <=> -l $b->[1] }
-      # filter out the items that do not match
-      # the name that we are looking for
-      grep { $any || $missing{$_->[0]} }
+      # make determinist based on names
+      sort { $a->[1] cmp $b->[1] }
+      # Filter out the items that do not match the name that we are looking for
+      # Filter out any broken symbolic links
+      grep { ($any || $missing{$_->[0]} ) && (-e $_->[1]) }
       # get [ name, full_path ] mapping,
       # each entry is a 2 element list ref
       map { _matches($_,$path) } 
       # read all files from the directory
       readdir $dh;
     closedir $dh;
-    
-    # TODO: the FFI::Sweet implementation
-    # has some aggresive techniques for
-    # finding .dlls from .a files that may
-    # be worth adopting.
-    
+
     midloop:
     foreach my $lib (@maybe)
     {
@@ -248,20 +243,32 @@ sub find_lib
       }
       
       delete $missing{$lib->[0]};
-      
-      foreach my $symbol (keys %symbols)
+
+      if(%symbols)
       {
-        next unless do {
-          require DynaLoader;
-          my $dll = DynaLoader::dl_load_file($lib->[1],0);
-          my $ok  = DynaLoader::dl_find_symbol($dll, $symbol) ? 1 : 0;
-                    DynaLoader::dl_unload_file($dll);
-          $ok;
-        };
-        delete $symbols{$symbol};
+        require DynaLoader;
+        my $dll = DynaLoader::dl_load_file($lib->[1],0);
+        foreach my $symbol (keys %symbols)
+        {
+          if(DynaLoader::dl_find_symbol($dll, $symbol) ? 1 : 0)
+          {
+            delete $symbols{$symbol}
+          }
+        }
+        DynaLoader::dl_unload_file($dll);
       }
       
-      push @found, $lib->[1];
+      my $found = $lib->[1];
+      
+      while(-l $found)
+      {
+        require File::Basename;
+        require File::Spec;
+        my $dir = File::Basename::dirname($found);
+        $found = File::Spec->rel2abs( readlink($found), $dir );
+      }
+      
+      push @found, $found;
     }    
   }
 
