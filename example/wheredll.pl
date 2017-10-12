@@ -9,7 +9,7 @@ unless(defined $name)
   print STDERR "usage: $0 name\n";
 }
 
-my(@path) = find_lib( lib => $name );
+my(@path) = find_lib( lib => '*', verify => sub { $_[0] eq $name } );
 
 if(@path)
 {
