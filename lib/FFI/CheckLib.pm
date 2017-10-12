@@ -58,9 +58,9 @@ if($os eq 'MSWin32' || $os eq 'msys')
 }
 else
 {
-  $system_path = eval q{
+  $system_path = eval {
     require DynaLoader;
-    \\@DynaLoader::dl_library_path;
+    \@DynaLoader::dl_library_path;
   }; die $@ if $@;
 }
 
