@@ -15,6 +15,10 @@ our @EXPORT = qw(
   find_lib_or_die 
 );
 
+our @EXPORT_OK = qw(
+  which
+);
+
 # ABSTRACT: Check that a library is available for FFI
 # VERSION
 
@@ -393,6 +397,22 @@ false (0) otherwise.
 sub check_lib
 {
   find_lib(@_) ? 1 : 0;
+}
+
+=head2 which
+
+[version 0.17]
+
+ my $path = find_lib($name);
+
+Return the path to the first library that matches the given name.
+
+=cut
+
+sub which
+{
+  my($name) = @_;
+  scalar find_lib( lib => $name );
 }
 
 1;

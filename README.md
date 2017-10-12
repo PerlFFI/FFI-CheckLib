@@ -136,6 +136,14 @@ This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::Check
 except that it returns true (1) on finding the appropriate libraries or 
 false (0) otherwise.
 
+## which
+
+\[version 0.17\]
+
+    my $path = find_lib($name);
+
+Return the path to the first library that matches the given name.
+
 # SEE ALSO
 
 - [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus)
