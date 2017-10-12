@@ -15,7 +15,7 @@ Revision history for {{$dist->name}}
     name to see which one is preferred by the operating system, or user.
    
   - Slightly more consistent diagnostic messages.
-  - Add which function
+  - Add which and where functions (not exported by default)
 
 0.16      2017-08-08 10:24:49 -0400
   - Tentative support for msys

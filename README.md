@@ -140,9 +140,21 @@ false (0) otherwise.
 
 \[version 0.17\]
 
-    my $path = find_lib($name);
+    my $path = where($name);
 
 Return the path to the first library that matches the given name.
+
+Not exported by default.
+
+## where
+
+\[version 0.17\]
+
+    my @paths = where($name);
+
+Return the paths to all the libraries that match the given name.
+
+Not exported by default.
 
 # SEE ALSO
 
