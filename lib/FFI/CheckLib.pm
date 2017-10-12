@@ -260,12 +260,15 @@ sub find_lib
       
       my $found = $lib->[1];
       
-      while(-l $found)
+      unless($any)
       {
-        require File::Basename;
-        require File::Spec;
-        my $dir = File::Basename::dirname($found);
-        $found = File::Spec->rel2abs( readlink($found), $dir );
+        while(-l $found)
+        {
+          require File::Basename;
+          require File::Spec;
+          my $dir = File::Basename::dirname($found);
+          $found = File::Spec->rel2abs( readlink($found), $dir );
+        }
       }
       
       push @found, $found;
