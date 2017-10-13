@@ -170,6 +170,18 @@ Return the paths to all the libraries that match the given name.
 
 Not exported by default.
 
+## has\_symbols
+
+\[version 0.17\]
+
+    my $bool = has_symbols($path, @symbol_names);
+
+Returns true if _all_ of the symbols can be found in the dynamic library located
+at the given path.  Can be useful in conjunction with `verify` with `find_lib`
+above.
+
+Not exported by default.
+
 # SEE ALSO
 
 - [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus)

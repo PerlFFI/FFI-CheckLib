@@ -2,7 +2,8 @@ use lib 't/lib';
 use Test2::V0 -no_srand => 1;
 use Test2::Mock;
 use Test2::Plugin::FauxOS 'linux';
-use FFI::CheckLib qw( find_lib which where );
+use Test2::Tools::FauxDynaLoader;
+use FFI::CheckLib qw( find_lib which where has_symbols );
 
 subtest 'recursive' => sub {
 
@@ -102,6 +103,42 @@ subtest 'which' => sub {
     );
 
   };
+
+};
+
+subtest 'has_symbols' => sub {
+
+  my $mock = mock_dynaloader;
+
+  is(
+    has_symbols('corpus/generic.dll'),
+    T(),
+  );
+
+  is(
+    has_symbols('corpus/generic.dll', qw( foo bar baz)),
+    T(),
+  );
+
+  is(
+    has_symbols('corpus/generic.dll', qw( foo bar )),
+    T(),
+  );
+
+  is(
+    has_symbols('corpus/generic.dll', qw( foo )),
+    T(),
+  );
+
+  is(
+    has_symbols('corpus/generic.dll', qw( foo bar baz bogus )),
+    F(),
+  );
+
+  is(
+    has_symbols('corpus/generic.dll', qw( bogus )),
+    F(),
+  );
 
 };
 

@@ -18,6 +18,7 @@ our @EXPORT = qw(
 our @EXPORT_OK = qw(
   which
   where
+  has_symbols
 );
 
 # ABSTRACT: Check that a library is available for FFI
@@ -455,6 +456,42 @@ sub where
   $name eq '*'
     ? find_lib(lib => '*')
     : find_lib(lib => '*', verify => sub { $_[0] eq $name });
+}
+
+=head2 has_symbols
+
+[version 0.17]
+
+ my $bool = has_symbols($path, @symbol_names);
+
+Returns true if I<all> of the symbols can be found in the dynamic library located
+at the given path.  Can be useful in conjunction with C<verify> with C<find_lib>
+above.
+
+Not exported by default.
+
+=cut
+
+sub has_symbols
+{
+  my($path, @symbols) = @_;
+  require DynaLoader;
+  my $dll = DynaLoader::dl_load_file($path, 0);
+
+  my $ok = 1;
+
+  foreach my $symbol (@symbols)
+  {
+    unless(DynaLoader::dl_find_symbol($dll, $symbol))
+    {
+      $ok = 0;
+      last;
+    }
+  }
+
+  DynaLoader::dl_unload_file($dll);
+  
+  $ok;
 }
 
 1;
