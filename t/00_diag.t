@@ -12,7 +12,6 @@ my $post_diag;
 $modules{$_} = $_ for qw(
   DynaLoader
   ExtUtils::MakeMaker
-  File::Basename
   Test2::API
   Test2::Mock
   Test2::Require::Module

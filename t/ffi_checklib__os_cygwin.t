@@ -5,12 +5,11 @@ use Test2::Tools::FauxDynaLoader;
 use Test2::Tools::NoteStderr qw( note_stderr );
 use FFI::CheckLib;
 
-$FFI::CheckLib::system_path =
-$FFI::CheckLib::system_path = [
+@$FFI::CheckLib::system_path = (
   'corpus/cygwin/bin',
   'corpus/unix/usr/lib',
   'corpus/unix/lib',
-];
+);
 
 my $mock = mock_dynaloader;
 

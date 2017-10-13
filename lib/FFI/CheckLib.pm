@@ -52,22 +52,25 @@ The test suite does depend on L<Test2::Suite>.
 
 =cut
 
-our $system_path;
+our $system_path = [];
 our $os ||= $^O;
 
 if($os eq 'MSWin32' || $os eq 'msys')
 {
-  $system_path = eval q{
-    use Env qw( @PATH );
-    \\@PATH;
-  }; die $@ if $@;
+  $system_path = eval {
+    require Env;
+    Env->import('@PATH');
+    \our @PATH;
+  };
+  die $@ if $@;
 }
 else
 {
   $system_path = eval {
     require DynaLoader;
     \@DynaLoader::dl_library_path;
-  }; die $@ if $@;
+  };
+  die $@ if $@;
 }
 
 our $pattern = [ qr{^lib(.*?)\.so.*$} ];

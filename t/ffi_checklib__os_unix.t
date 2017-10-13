@@ -6,11 +6,10 @@ use Test2::Tools::NoteStderr qw( note_stderr );
 use FFI::CheckLib;
 use File::Basename qw( basename );
 
-$FFI::CheckLib::system_path =
-$FFI::CheckLib::system_path = [ 
+@$FFI::CheckLib::system_path = (
   'corpus/unix/usr/lib',
   'corpus/unix/lib',
-];
+);
 
 my $mock = mock_dynaloader;
 
