@@ -147,4 +147,67 @@ subtest 'verify' => sub {
 
 };
 
+subtest '_cmp' => sub {
+
+  my $process = sub {
+    [
+      sort { FFI::CheckLib::_cmp($a,$b) }
+      map  { FFI::CheckLib::_matches($_, '/lib') }
+      @_
+    ];
+  };
+  
+  is(
+    $process->(qw( libfoo.1.2.3.dylib libbar.3.4.5.dylib libbaz.0.0.0.dylib )),
+    [
+      [ 'bar', '/lib/libbar.3.4.5.dylib', 3,4,5 ],
+      [ 'baz', '/lib/libbaz.0.0.0.dylib', 0,0,0 ],
+      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+    ],
+    'name first 1',
+  );
+
+  is(
+    $process->(qw( libbaz.0.0.0.dylib libfoo.1.2.3.dylib libbar.3.4.5.dylib )),
+    [
+      [ 'bar', '/lib/libbar.3.4.5.dylib', 3,4,5 ],
+      [ 'baz', '/lib/libbaz.0.0.0.dylib', 0,0,0 ],
+      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+    ],
+    'name first 2',
+  );
+
+  is(
+    $process->(qw( libbar.3.4.5.dylib libbaz.0.0.0.dylib libfoo.1.2.3.dylib )),
+    [
+      [ 'bar', '/lib/libbar.3.4.5.dylib', 3,4,5 ],
+      [ 'baz', '/lib/libbaz.0.0.0.dylib', 0,0,0 ],
+      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+    ],
+    'name first 3',
+  );
+
+  is(
+    $process->(qw( libfoo.1.2.3.dylib libfoo.dylib libfoo.1.2.dylib libfoo.1.dylib )),
+    [
+      [ 'foo', '/lib/libfoo.dylib',             ],
+      [ 'foo', '/lib/libfoo.1.dylib',     1     ],
+      [ 'foo', '/lib/libfoo.1.2.dylib',   1,2   ],
+      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+    ],
+    'no version before version',
+  );
+  
+  is(
+    $process->(qw( libfoo.2.3.4.dylib libfoo.1.2.3.dylib libfoo.3.4.5.dylib )),
+    [
+      [ 'foo', '/lib/libfoo.3.4.5.dylib', 3,4,5 ],
+      [ 'foo', '/lib/libfoo.2.3.4.dylib', 2,3,4 ],
+      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+    ],
+    'newer version first',
+  );
+
+};
+
 done_testing;

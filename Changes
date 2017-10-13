@@ -13,6 +13,10 @@ Revision history for {{$dist->name}}
     
     Now we still endevour to return the long .so name, but use the short
     name to see which one is preferred by the operating system, or user.
+    
+    In the absense of any symlinks to disambiguate two libraries with the
+    same name, we prefer the one with a newer version number.   That is
+    libfoo.so.2.3.4 would be preferred over libfoo.so.1.2.3
    
   - Slightly more consistent diagnostic messages.
   - Added functions: which, where, has_symbols

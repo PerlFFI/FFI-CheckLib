@@ -186,4 +186,80 @@ subtest 'symlink' => sub {
 
 };
 
+subtest 'prefer newer' => sub {
+
+  my($lib) = find_lib(
+    lib => 'crypto',
+  );
+  
+  is($lib, T());
+  is(basename($lib), 'libcrypto.so.1.0.0');
+  
+  note "lib = $lib";
+
+};
+
+subtest '_cmp' => sub {
+
+  my $process = sub {
+    [
+      sort { FFI::CheckLib::_cmp($a,$b) }
+      map  { FFI::CheckLib::_matches($_, '/lib') }
+      @_
+    ];
+  };
+  
+  is(
+    $process->(qw( libfoo.so.1.2.3 libbar.so.3.4.5 libbaz.so.0.0.0 )),
+    [
+      [ 'bar', '/lib/libbar.so.3.4.5', 3,4,5 ],
+      [ 'baz', '/lib/libbaz.so.0.0.0', 0,0,0 ],
+      [ 'foo', '/lib/libfoo.so.1.2.3', 1,2,3 ],
+    ],
+    'name first 1',
+  );
+
+  is(
+    $process->(qw( libbaz.so.0.0.0 libfoo.so.1.2.3 libbar.so.3.4.5 )),
+    [
+      [ 'bar', '/lib/libbar.so.3.4.5', 3,4,5 ],
+      [ 'baz', '/lib/libbaz.so.0.0.0', 0,0,0 ],
+      [ 'foo', '/lib/libfoo.so.1.2.3', 1,2,3 ],
+    ],
+    'name first 2',
+  );
+
+  is(
+    $process->(qw( libbar.so.3.4.5 libbaz.so.0.0.0 libfoo.so.1.2.3 )),
+    [
+      [ 'bar', '/lib/libbar.so.3.4.5', 3,4,5 ],
+      [ 'baz', '/lib/libbaz.so.0.0.0', 0,0,0 ],
+      [ 'foo', '/lib/libfoo.so.1.2.3', 1,2,3 ],
+    ],
+    'name first 3',
+  );
+
+  is(
+    $process->(qw( libfoo.so.1.2.3 libfoo.so libfoo.so.1.2 libfoo.so.1 )),
+    [
+      [ 'foo', '/lib/libfoo.so',             ],
+      [ 'foo', '/lib/libfoo.so.1',     1     ],
+      [ 'foo', '/lib/libfoo.so.1.2',   1,2   ],
+      [ 'foo', '/lib/libfoo.so.1.2.3', 1,2,3 ],
+    ],
+    'no version before version',
+  );
+  
+  is(
+    $process->(qw( libfoo.so.2.3.4 libfoo.so.1.2.3 libfoo.so.3.4.5 )),
+    [
+      [ 'foo', '/lib/libfoo.so.3.4.5', 3,4,5 ],
+      [ 'foo', '/lib/libfoo.so.2.3.4', 2,3,4 ],
+      [ 'foo', '/lib/libfoo.so.1.2.3', 1,2,3 ],
+    ],
+    'newer version first',
+  );
+
+};
+
 done_testing;

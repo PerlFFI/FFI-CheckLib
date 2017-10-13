@@ -164,4 +164,56 @@ subtest 'verify' => sub {
 
 };
 
+subtest '_cmp' => sub {
+
+  my $process = sub {
+    [
+      sort { FFI::CheckLib::_cmp($a,$b) }
+      map  { FFI::CheckLib::_matches($_, '/bin') }
+      @_
+    ];
+  };
+  
+  is(
+    $process->(qw( cygfoo-1.dll cygbar-2.dll cygbaz-0.dll )),
+    [
+      [ 'bar', '/bin/cygbar-2.dll', 2 ],
+      [ 'baz', '/bin/cygbaz-0.dll', 0 ],
+      [ 'foo', '/bin/cygfoo-1.dll', 1 ],
+    ],
+    'name first 1',
+  );
+
+  is(
+    $process->(qw( cygbaz-0.dll cygfoo-1.dll cygbar-2.dll )),
+    [
+      [ 'bar', '/bin/cygbar-2.dll', 2 ],
+      [ 'baz', '/bin/cygbaz-0.dll', 0 ],
+      [ 'foo', '/bin/cygfoo-1.dll', 1 ],
+    ],
+    'name first 1',
+  );
+
+  is(
+    $process->(qw( cygbar-2.dll cygfoo-1.dll cygbaz-0.dll )),
+    [
+      [ 'bar', '/bin/cygbar-2.dll', 2 ],
+      [ 'baz', '/bin/cygbaz-0.dll', 0 ],
+      [ 'foo', '/bin/cygfoo-1.dll', 1 ],
+    ],
+    'name first 1',
+  );
+
+  is(
+    $process->(qw( cygfoo-2.dll cygfoo-0.dll cygfoo-1.dll )),
+    [
+      [ 'foo', '/bin/cygfoo-2.dll', 2, ],
+      [ 'foo', '/bin/cygfoo-1.dll', 1, ],
+      [ 'foo', '/bin/cygfoo-0.dll', 0, ],
+    ],
+    'newer version first',
+  );
+
+};
+
 done_testing;

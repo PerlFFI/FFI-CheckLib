@@ -21,8 +21,6 @@ diag "libssl=$_" for find_lib( lib => '*', verify => sub { $_[0] eq 'ssl' });
 diag '';
 diag '';
 
-todo 'need to fix' => sub {
-
 is(
   find_lib(
     lib    => 'crypto',
@@ -30,8 +28,6 @@ is(
   ),
   T(),
 );
-
-};
 
 is(
   has_symbols('/lib/x86_64-linux-gnu/libssl.so.0.9.8', 'PEM_read_bio_CMS'),

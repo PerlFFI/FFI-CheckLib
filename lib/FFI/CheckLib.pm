@@ -73,26 +73,26 @@ else
   die $@ if $@;
 }
 
-our $pattern = [ qr{^lib(.*?)\.so.*$} ];
+our $pattern = [ qr{^lib(.*?)\.so(?:\.([0-9]+(?:\.[0-9]+)*))?$} ];
 
 if($os eq 'cygwin')
 {
-  push @$pattern, qr{^cyg(.*?)(?:-[0-9]+)?\.dll$};
+  push @$pattern, qr{^cyg(.*?)(?:-([0-9])+)?\.dll$};
 }
 elsif($os eq 'msys')
 {
   # doesn't seem as though msys uses psudo libfoo.so files
   # in the way that cygwin sometimes does.  we can revisit
   # this if we find otherwise.
-  $pattern = [ qr{^msys-(.*?)(?:-[0-9]+)?\.dll$} ];
+  $pattern = [ qr{^msys-(.*?)(?:-([0-9])+)?\.dll$} ];
 }
 elsif($os eq 'MSWin32')
 {
-  $pattern = [ qr{^(?:lib)?(.*?)(?:-[0-9]+)?\.dll$} ];
+  $pattern = [ qr{^(?:lib)?(.*?)(?:-([0-9])+)?\.dll$} ];
 }
 elsif($os eq 'darwin')
 {
-  push @$pattern, qr{^lib(.*?)(?:-[0-9\.]+)?\.(?:dylib|bundle)$};
+  push @$pattern, qr{^lib(.*?)(?:\.([0-9]+(?:\.[0-9]+)*))?\.(?:dylib|bundle)$};
 }
 
 sub _matches
@@ -100,9 +100,30 @@ sub _matches
   my($filename, $path) = @_;
   foreach my $regex (@$pattern)
   {
-    return [ $1, File::Spec->catfile($path, $filename) ] if $filename =~ $regex;
+    return [
+      $1,                                      # 0    capture group 1 library name
+      File::Spec->catfile($path, $filename),   # 1    full path to library
+      defined $2 ? (split /\./, $2) : (),      # 2... capture group 2 library version
+    ] if $filename =~ $regex; 
   }
   return ();
+}
+
+sub _cmp
+{
+  my($A,$B) = @_;
+
+  return $A->[0] cmp $B->[0] if $A->[0] ne $B->[0];
+
+  my $i=2;
+  while(1)
+  {
+    return 0  if !defined($A->[$i]) && !defined($B->[$i]);
+    return -1 if !defined $A->[$i];
+    return 1  if !defined $B->[$i];
+    return $B->[$i] <=> $A->[$i] if $A->[$i] != $B->[$i];
+    $i++;
+  }
 }
 
 =head1 FUNCTIONS
@@ -237,8 +258,8 @@ sub find_lib
     my $dh;
     opendir $dh, $path;
     my @maybe = 
-      # make determinist based on names
-      sort { $a->[1] cmp $b->[1] }
+      # make determinist based on names and versions
+      sort { _cmp($a,$b) }
       # Filter out the items that do not match the name that we are looking for
       # Filter out any broken symbolic links
       grep { ($any || $missing{$_->[0]} ) && (-e $_->[1]) }
