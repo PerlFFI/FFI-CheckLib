@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.17_02   2017-10-14 01:03:04 -0400
   - Fix Windows testing regression introduced in 0.17_01
 
 0.17_01   2017-10-13 15:58:30 -0400
