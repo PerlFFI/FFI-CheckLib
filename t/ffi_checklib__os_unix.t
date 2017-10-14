@@ -150,6 +150,8 @@ subtest 'verify' => sub {
 
 subtest 'symlink' => sub {
 
+  # TODO: this test only gets run out of git, since Dist::Zilla
+  # converts the symlinks into real files :/
   skip_all 'Test requires a system with proper symlinks'
     unless -l 'corpus/unix/usr/lib/libxor.so'
     &&     readlink('corpus/unix/usr/lib/libxor.so');
