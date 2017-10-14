@@ -147,6 +147,13 @@ subtest 'verify' => sub {
 
 };
 
+sub p ($)
+{
+  my($path) = @_;
+  $path =~ s{/}{\\}g if $^O eq 'MSWin32';
+  $path;
+}
+
 subtest '_cmp' => sub {
 
   my $process = sub {
@@ -160,9 +167,9 @@ subtest '_cmp' => sub {
   is(
     $process->(qw( libfoo.1.2.3.dylib libbar.3.4.5.dylib libbaz.0.0.0.dylib )),
     [
-      [ 'bar', '/lib/libbar.3.4.5.dylib', 3,4,5 ],
-      [ 'baz', '/lib/libbaz.0.0.0.dylib', 0,0,0 ],
-      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+      [ 'bar', p '/lib/libbar.3.4.5.dylib', 3,4,5 ],
+      [ 'baz', p '/lib/libbaz.0.0.0.dylib', 0,0,0 ],
+      [ 'foo', p '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
     ],
     'name first 1',
   );
@@ -170,9 +177,9 @@ subtest '_cmp' => sub {
   is(
     $process->(qw( libbaz.0.0.0.dylib libfoo.1.2.3.dylib libbar.3.4.5.dylib )),
     [
-      [ 'bar', '/lib/libbar.3.4.5.dylib', 3,4,5 ],
-      [ 'baz', '/lib/libbaz.0.0.0.dylib', 0,0,0 ],
-      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+      [ 'bar', p '/lib/libbar.3.4.5.dylib', 3,4,5 ],
+      [ 'baz', p '/lib/libbaz.0.0.0.dylib', 0,0,0 ],
+      [ 'foo', p '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
     ],
     'name first 2',
   );
@@ -180,9 +187,9 @@ subtest '_cmp' => sub {
   is(
     $process->(qw( libbar.3.4.5.dylib libbaz.0.0.0.dylib libfoo.1.2.3.dylib )),
     [
-      [ 'bar', '/lib/libbar.3.4.5.dylib', 3,4,5 ],
-      [ 'baz', '/lib/libbaz.0.0.0.dylib', 0,0,0 ],
-      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+      [ 'bar', p '/lib/libbar.3.4.5.dylib', 3,4,5 ],
+      [ 'baz', p '/lib/libbaz.0.0.0.dylib', 0,0,0 ],
+      [ 'foo', p '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
     ],
     'name first 3',
   );
@@ -190,10 +197,10 @@ subtest '_cmp' => sub {
   is(
     $process->(qw( libfoo.1.2.3.dylib libfoo.dylib libfoo.1.2.dylib libfoo.1.dylib )),
     [
-      [ 'foo', '/lib/libfoo.dylib',             ],
-      [ 'foo', '/lib/libfoo.1.dylib',     1     ],
-      [ 'foo', '/lib/libfoo.1.2.dylib',   1,2   ],
-      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+      [ 'foo', p '/lib/libfoo.dylib',             ],
+      [ 'foo', p '/lib/libfoo.1.dylib',     1     ],
+      [ 'foo', p '/lib/libfoo.1.2.dylib',   1,2   ],
+      [ 'foo', p '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
     ],
     'no version before version',
   );
@@ -201,9 +208,9 @@ subtest '_cmp' => sub {
   is(
     $process->(qw( libfoo.2.3.4.dylib libfoo.1.2.3.dylib libfoo.3.4.5.dylib )),
     [
-      [ 'foo', '/lib/libfoo.3.4.5.dylib', 3,4,5 ],
-      [ 'foo', '/lib/libfoo.2.3.4.dylib', 2,3,4 ],
-      [ 'foo', '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
+      [ 'foo', p '/lib/libfoo.3.4.5.dylib', 3,4,5 ],
+      [ 'foo', p '/lib/libfoo.2.3.4.dylib', 2,3,4 ],
+      [ 'foo', p '/lib/libfoo.1.2.3.dylib', 1,2,3 ],
     ],
     'newer version first',
   );

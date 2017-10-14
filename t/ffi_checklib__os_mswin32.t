@@ -42,12 +42,19 @@ subtest 'in sync with $ENV{PATH}' => sub {
 
 };
 
+sub p ($)
+{
+  my($path) = @_;
+  $path =~ s{/}{\\}g if $^O eq 'MSWin32';
+  $path;
+}
+
 subtest '_cmp' => sub {
 
   my $process = sub {
     [
       sort { FFI::CheckLib::_cmp($a,$b) }
-      map  { FFI::CheckLib::_matches($_, 'c:/bin') }
+      map  { FFI::CheckLib::_matches($_, 'C:/bin') }
       @_
     ];
   };
@@ -55,9 +62,9 @@ subtest '_cmp' => sub {
   is(
     $process->(qw( foo-1.dll bar-2.dll baz-0.dll )),
     [
-      [ 'bar', 'c:/bin/bar-2.dll', 2 ],
-      [ 'baz', 'c:/bin/baz-0.dll', 0 ],
-      [ 'foo', 'c:/bin/foo-1.dll', 1 ],
+      [ 'bar', p 'C:/bin/bar-2.dll', 2 ],
+      [ 'baz', p 'C:/bin/baz-0.dll', 0 ],
+      [ 'foo', p 'C:/bin/foo-1.dll', 1 ],
     ],
     'name first 1',
   );
@@ -65,9 +72,9 @@ subtest '_cmp' => sub {
   is(
     $process->(qw( baz-0.dll foo-1.dll bar-2.dll )),
     [
-      [ 'bar', 'c:/bin/bar-2.dll', 2 ],
-      [ 'baz', 'c:/bin/baz-0.dll', 0 ],
-      [ 'foo', 'c:/bin/foo-1.dll', 1 ],
+      [ 'bar', p 'C:/bin/bar-2.dll', 2 ],
+      [ 'baz', p 'C:/bin/baz-0.dll', 0 ],
+      [ 'foo', p 'C:/bin/foo-1.dll', 1 ],
     ],
     'name first 1',
   );
@@ -75,9 +82,9 @@ subtest '_cmp' => sub {
   is(
     $process->(qw( bar-2.dll foo-1.dll baz-0.dll )),
     [
-      [ 'bar', 'c:/bin/bar-2.dll', 2 ],
-      [ 'baz', 'c:/bin/baz-0.dll', 0 ],
-      [ 'foo', 'c:/bin/foo-1.dll', 1 ],
+      [ 'bar', p 'C:/bin/bar-2.dll', 2 ],
+      [ 'baz', p 'C:/bin/baz-0.dll', 0 ],
+      [ 'foo', p 'C:/bin/foo-1.dll', 1 ],
     ],
     'name first 1',
   );
@@ -85,9 +92,9 @@ subtest '_cmp' => sub {
   is(
     $process->(qw( foo-2.dll foo-0.dll foo-1.dll )),
     [
-      [ 'foo', 'c:/bin/foo-2.dll', 2, ],
-      [ 'foo', 'c:/bin/foo-1.dll', 1, ],
-      [ 'foo', 'c:/bin/foo-0.dll', 0, ],
+      [ 'foo', p 'C:/bin/foo-2.dll', 2, ],
+      [ 'foo', p 'C:/bin/foo-1.dll', 1, ],
+      [ 'foo', p 'C:/bin/foo-0.dll', 0, ],
     ],
     'newer version first',
   );

@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Fix Windows testing regression introduced in 0.17_01
 
 0.17_01   2017-10-13 15:58:30 -0400
   - Filter out broken and recursive symlinks
