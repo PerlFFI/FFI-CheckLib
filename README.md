@@ -1,4 +1,4 @@
-# FFI::CheckLib [![Build Status](https://secure.travis-ci.org/plicease/FFI-CheckLib.png)](http://travis-ci.org/plicease/FFI-CheckLib)
+# FFI::CheckLib [![Build Status](https://secure.travis-ci.org/Perl5-FFI/FFI-CheckLib.png)](http://travis-ci.org/Perl5-FFI/FFI-CheckLib)
 
 Check that a library is available for FFI
 
