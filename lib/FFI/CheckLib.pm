@@ -12,7 +12,7 @@ our @EXPORT = qw(
   check_lib
   check_lib_or_exit
   find_lib_or_exit
-  find_lib_or_die 
+  find_lib_or_die
 );
 
 our @EXPORT_OK = qw(
@@ -26,27 +26,27 @@ our @EXPORT_OK = qw(
 
 =head1 SYNOPSIS
 
-  use FFI::CheckLib;
-  
-  check_lib_or_exit( lib => 'jpeg', symbol => 'jinit_memory_mgr' );
-  check_lib_or_exit( lib => [ 'iconv', 'jpeg' ] );
-  
-  # or prompt for path to library and then:
-  print "where to find jpeg library: ";
-  my $path = <STDIN>;
-  check_lib_or_exit( lib => 'jpeg', libpath => $path );
+ use FFI::CheckLib;
+ 
+ check_lib_or_exit( lib => 'jpeg', symbol => 'jinit_memory_mgr' );
+ check_lib_or_exit( lib => [ 'iconv', 'jpeg' ] );
+ 
+ # or prompt for path to library and then:
+ print "where to find jpeg library: ";
+ my $path = <STDIN>;
+ check_lib_or_exit( lib => 'jpeg', libpath => $path );
 
 =head1 DESCRIPTION
 
-This module checks whether a particular dynamic library is available for 
-FFI to use. It is modeled heavily on L<Devel::CheckLib>, but will find 
-dynamic libraries even when development packages are not installed.  It 
-also provides a L<find_lib|FFI::CheckLib#find_lib> function that will 
-return the full path to the found dynamic library, which can be feed 
-directly into L<FFI::Platypus> or L<FFI::Raw>.
+This module checks whether a particular dynamic library is available for
+FFI to use. It is modeled heavily on L<Devel::CheckLib>, but will find
+dynamic libraries even when development packages are not installed.  It
+also provides a L<find_lib|FFI::CheckLib#find_lib> function that will
+return the full path to the found dynamic library, which can be feed
+directly into L<FFI::Platypus> or another FFI system.
 
-Although intended mainly for FFI modules via L<FFI::Platypus> and 
-similar, this module does not actually use any FFI to do its detection 
+Although intended mainly for FFI modules via L<FFI::Platypus> and
+similar, this module does not actually use any FFI to do its detection
 and probing.  This module does not have any non-core runtime dependencies.
 The test suite does depend on L<Test2::Suite>.
 
@@ -104,7 +104,7 @@ sub _matches
       $1,                                      # 0    capture group 1 library name
       File::Spec->catfile($path, $filename),   # 1    full path to library
       defined $2 ? (split /\./, $2) : (),      # 2... capture group 2 library version
-    ] if $filename =~ $regex; 
+    ] if $filename =~ $regex;
   }
   return ();
 }
@@ -134,7 +134,7 @@ All of these take the same named parameters and are exported by default.
 
  my(@libs) = find_lib(%args);
 
-This will return a list of dynamic libraries, or empty list if none were 
+This will return a list of dynamic libraries, or empty list if none were
 found.
 
 [version 0.05]
@@ -147,9 +147,9 @@ Arguments are key value pairs with these keys:
 
 =item lib
 
-Must be either a string with the name of a single library or a reference 
-to an array of strings of library names.  Depending on your platform, 
-C<CheckLib> will prepend C<lib> or append C<.dll> or C<.so> when 
+Must be either a string with the name of a single library or a reference
+to an array of strings of library names.  Depending on your platform,
+C<CheckLib> will prepend C<lib> or append C<.dll> or C<.so> when
 searching.
 
 [version 0.11]
@@ -164,8 +164,8 @@ A string or array of additional paths to search for libraries.
 
 [version 0.11]
 
-A string or array of system paths to search for instead of letting 
-L<FFI::CheckLib> determine the system path.  You can set this to C<[]> 
+A string or array of system paths to search for instead of letting
+L<FFI::CheckLib> determine the system path.  You can set this to C<[]>
 in order to not search I<any> system paths.
 
 =item symbol
@@ -174,11 +174,11 @@ A string or a list of symbol names that must be found.
 
 =item verify
 
-A code reference used to verify a library really is the one that you 
-want.  It should take two arguments, which is the name of the library 
-and the full path to the library pathname.  It should return true if it 
-is acceptable, and false otherwise.  You can use this in conjunction 
-with L<FFI::Platypus> to determine if it is going to meet your needs.  
+A code reference used to verify a library really is the one that you
+want.  It should take two arguments, which is the name of the library
+and the full path to the library pathname.  It should return true if it
+is acceptable, and false otherwise.  You can use this in conjunction
+with L<FFI::Platypus> to determine if it is going to meet your needs.
 Example:
 
  use FFI::CheckLib;
@@ -202,7 +202,7 @@ Example:
 
 [version 0.11]
 
-Recursively search for libraries in any non-system paths (those provided 
+Recursively search for libraries in any non-system paths (those provided
 via C<libpath> above).
 
 =back
@@ -214,7 +214,7 @@ my $diagnostic;
 sub find_lib
 {
   my(%args) = @_;
-  
+
   undef $diagnostic;
   croak "find_lib requires lib argument" unless defined $args{lib};
 
@@ -233,23 +233,23 @@ sub find_lib
       $args{$arg} = [];
     }
   }
-  
+
   if(defined $args{systempath} && !ref($args{systempath}))
   {
     $args{systempath} = [ $args{systempath} ];
   }
-  
+
   my @path = @{ $args{libpath} };
   @path = map { _recurse($_) } @path if $recursive;
   push @path, grep { defined } defined $args{systempath}
     ? @{ $args{systempath} }
     : @$system_path;
-  
+
   my $any = 1 if grep { $_ eq '*' } @{ $args{lib} };
   my %missing = map { $_ => 1 } @{ $args{lib} };
   my %symbols = map { $_ => 1 } @{ $args{symbol} };
   my @found;
-  
+
   delete $missing{'*'};
 
   foreach my $path (@path)
@@ -257,7 +257,7 @@ sub find_lib
     next unless -d $path;
     my $dh;
     opendir $dh, $path;
-    my @maybe = 
+    my @maybe =
       # make determinist based on names and versions
       sort { _cmp($a,$b) }
       # Filter out the items that do not match the name that we are looking for
@@ -265,7 +265,7 @@ sub find_lib
       grep { ($any || $missing{$_->[0]} ) && (-e $_->[1]) }
       # get [ name, full_path ] mapping,
       # each entry is a 2 element list ref
-      map { _matches($_,$path) } 
+      map { _matches($_,$path) }
       # read all files from the directory
       readdir $dh;
     closedir $dh;
@@ -274,12 +274,12 @@ sub find_lib
     foreach my $lib (@maybe)
     {
       next unless $any || $missing{$lib->[0]};
-      
+
       foreach my $verify (@{ $args{verify} })
       {
         next midloop unless $verify->(@$lib);
       }
-      
+
       delete $missing{$lib->[0]};
 
       if(%symbols)
@@ -295,9 +295,9 @@ sub find_lib
         }
         DynaLoader::dl_unload_file($dll);
       }
-      
+
       my $found = $lib->[1];
-      
+
       unless($any)
       {
         while(-l $found)
@@ -308,9 +308,9 @@ sub find_lib
           $found = File::Spec->rel2abs( readlink($found), $dir );
         }
       }
-      
+
       push @found, $found;
-    }    
+    }
   }
 
   if(%missing)
@@ -329,7 +329,7 @@ sub find_lib
     else
     { $diagnostic = "symbol not found: @missing" }
   }
-  
+
   return if %symbols;
   return $found[0] unless wantarray;
   return @found;
@@ -350,8 +350,8 @@ sub _recurse
 
  assert_lib(%args);
 
-This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
-except that instead of returning empty list of failure it throws an 
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
+except that instead of returning empty list of failure it throws an
 exception.
 
 =cut
@@ -365,9 +365,9 @@ sub assert_lib
 
  check_lib_or_exit(%args);
 
-This behaves exactly the same as L<assert_lib|FFI::CheckLib#assert_lib>, 
-except that instead of dying, it warns (with exactly the same error 
-message) and exists.  This is intended for use in C<Makefile.PL> or 
+This behaves exactly the same as L<assert_lib|FFI::CheckLib#assert_lib>,
+except that instead of dying, it warns (with exactly the same error
+message) and exists.  This is intended for use in C<Makefile.PL> or
 C<Build.PL>
 
 =cut
@@ -387,8 +387,8 @@ sub check_lib_or_exit
 
  my(@libs) = find_lib_or_exit(%args);
 
-This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
-except that if the library is not found, it will call exit with an 
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
+except that if the library is not found, it will call exit with an
 appropriate diagnostic.
 
 =cut
@@ -411,8 +411,8 @@ sub find_lib_or_exit
 
  my(@libs) = find_lib_or_die(%args);
 
-This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
-except that if the library is not found, it will die with an appropriate 
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
+except that if the library is not found, it will die with an appropriate
 diagnostic.
 
 =cut
@@ -432,8 +432,8 @@ sub find_lib_or_die
 
  my $bool = check_lib(%args);
 
-This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>, 
-except that it returns true (1) on finding the appropriate libraries or 
+This behaves exactly the same as L<find_lib|FFI::CheckLib#find_lib>,
+except that it returns true (1) on finding the appropriate libraries or
 false (0) otherwise.
 
 =cut
@@ -514,7 +514,7 @@ sub has_symbols
   }
 
   DynaLoader::dl_unload_file($dll);
-  
+
   $ok;
 }
 
