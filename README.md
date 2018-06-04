@@ -182,6 +182,19 @@ above.
 
 Not exported by default.
 
+## system\_path
+
+\[version 0.20\]
+
+    my $path = FFI::CheckLib::system_path;
+
+Returns the system path as a list reference.  On some systems, this is `PATH`
+on others it might be [LD\_LIBRARY\_PATH](https://metacpan.org/pod/LD_LIBRARY_PATH) on still others it could be something
+completely different.  So although you _may_ add items to this list, you should
+probably do some careful consideration before you do so.
+
+This function is not exportable, even on request.
+
 # SEE ALSO
 
 - [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus)

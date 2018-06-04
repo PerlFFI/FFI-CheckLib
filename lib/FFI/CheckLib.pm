@@ -518,6 +518,26 @@ sub has_symbols
   $ok;
 }
 
+=head2 system_path
+
+[version 0.20]
+
+ my $path = FFI::CheckLib::system_path;
+
+Returns the system path as a list reference.  On some systems, this is C<PATH>
+on others it might be L<LD_LIBRARY_PATH> on still others it could be something
+completely different.  So although you I<may> add items to this list, you should
+probably do some careful consideration before you do so.
+
+This function is not exportable, even on request.
+
+=cut
+
+sub system_path
+{
+  $system_path;
+}
+
 1;
 
 =head1 SEE ALSO

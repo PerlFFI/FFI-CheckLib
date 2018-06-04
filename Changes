@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Add system_path function.
 
 0.19      2018-05-30 21:09:32 -0400
   - Administrative release to note that this dist is moving its
