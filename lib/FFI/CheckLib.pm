@@ -185,7 +185,7 @@ Example:
  use FFI::Platypus;
  
  my($lib) = find_lib(
-   name => 'foo',
+   lib => 'foo',
    verify => sub {
      my($name, $libpath) = @_;
      
