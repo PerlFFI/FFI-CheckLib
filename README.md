@@ -85,7 +85,7 @@ Arguments are key value pairs with these keys:
         use FFI::Platypus;
         
         my($lib) = find_lib(
-          name => 'foo',
+          lib => 'foo',
           verify => sub {
             my($name, $libpath) = @_;
             
@@ -214,6 +214,8 @@ Contributors:
 Bakkiaraj Murugesan (bakkiaraj)
 
 Dan Book (grinnz, DBOOK)
+
+Ilya Pavlov (Ilya, ILUX)
 
 # COPYRIGHT AND LICENSE
 
