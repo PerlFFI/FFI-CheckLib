@@ -88,7 +88,7 @@ elsif($os eq 'msys')
 }
 elsif($os eq 'MSWin32')
 {
-  $pattern = [ qr{^(?:lib)?(.*?)(?:-([0-9])+)?\.dll$} ];
+  $pattern = [ qr{^(?:lib)?(.*?)(?:-([0-9])+)?\.dll$}i ];
 }
 elsif($os eq 'darwin')
 {
