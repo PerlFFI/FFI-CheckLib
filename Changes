@@ -2,6 +2,9 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.22      2018-10-13 22:24:46 -0400
+  - Production version identical to 0.21_01
+
 0.21_01   2018-10-11 22:53:43 -0400
   - Documentation fixes
   - Handle DLLs with upper-case characters in extension on MSWin32 (gh#9)
