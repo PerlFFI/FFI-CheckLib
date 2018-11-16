@@ -99,14 +99,14 @@ elsif($os eq 'darwin')
 sub _matches
 {
   my($filename, $path) = @_;
-  my $splitchar = ($^O =~ /mswin/i) ? '-' : '.';
-#warn "++++ _matches FILENAME IS $filename";
+  my $split_re = ($os =~ /mswin/i) ? qr/\-/ : qr/\./;
+
   foreach my $regex (@$pattern)
   {
     return [
       $1,                                      # 0    capture group 1 library name
       File::Spec->catfile($path, $filename),   # 1    full path to library
-      defined $2 ? (split $splitchar, $2) : (),      # 2... capture group 2 library version
+      defined $2 ? (split $split_re, $2) : (),      # 2... capture group 2 library version
     ] if $filename =~ $regex;
   }
   return ();
