@@ -88,7 +88,8 @@ elsif($os eq 'msys')
 }
 elsif($os eq 'MSWin32')
 {
-  $pattern = [ qr{^(?:lib)?(.*?)(?:-([0-9])+)?\.dll$}i ];
+  #  handle cases like libgeos-3-7-0___.dll and libgtk-2.0-0.dll
+  $pattern = [ qr{^(?:lib)?(\w+?)(?:-([0-9-\.]+))?_*\.dll$}i ];
 }
 elsif($os eq 'darwin')
 {
@@ -98,12 +99,14 @@ elsif($os eq 'darwin')
 sub _matches
 {
   my($filename, $path) = @_;
+  my $splitchar = ($^O =~ /mswin/i) ? '-' : '.';
+#warn "++++ _matches FILENAME IS $filename";
   foreach my $regex (@$pattern)
   {
     return [
       $1,                                      # 0    capture group 1 library name
       File::Spec->catfile($path, $filename),   # 1    full path to library
-      defined $2 ? (split /\./, $2) : (),      # 2... capture group 2 library version
+      defined $2 ? (split $splitchar, $2) : (),      # 2... capture group 2 library version
     ] if $filename =~ $regex;
   }
   return ();
