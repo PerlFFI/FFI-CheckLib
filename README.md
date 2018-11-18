@@ -217,6 +217,8 @@ Dan Book (grinnz, DBOOK)
 
 Ilya Pavlov (Ilya, ILUX)
 
+Shawn Laffan (SLAFFAN)
+
 # COPYRIGHT AND LICENSE
 
 This software is copyright (c) 2014-2018 by Graham Ollis.
