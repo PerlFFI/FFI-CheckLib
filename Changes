@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Handle DLLs on Windows with "dashed" version numbers (example: foo-1-2-3.dll)
 
 0.22      2018-10-13 22:24:46 -0400
   - Production version identical to 0.21_01
