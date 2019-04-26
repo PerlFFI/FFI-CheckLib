@@ -3,4 +3,6 @@ use Test2::V0;
 use FFI::CheckLib;
 use FFI::Platypus;
 
+ok 1;
+
 done_testing;
