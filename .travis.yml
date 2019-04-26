@@ -18,6 +18,10 @@ jobs:
   include:
     - env: CIP_TAG=5.29
     - env: CIP_TAG=5.28
+    - env: CIP_TAG=5.28           CIP_ENV=EXTRA_CI=1
+    - env: CIP_TAG=5.28-alpine    CIP_ENV=EXTRA_CI=1
+    - env: CIP_TAG=5.28-centos7   CIP_ENV=EXTRA_CI=1
+    - env: CIP_TAG=5.28-fedora29  CIP_ENV=EXTRA_CI=1
     - env: CIP_TAG=5.26
     - env: CIP_TAG=5.24
     - env: CIP_TAG=5.22
