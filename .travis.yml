@@ -34,6 +34,7 @@ jobs:
     - env: CIP_TAG=5.8
   allow_failures:
     - env: CIP_TAG=5.28-fedora29  CIP_ENV=EXTRA_CI=1
+    - env: CIP_TAG=5.28-centos7   CIP_ENV=EXTRA_CI=1
 
 cache:
   directories:
