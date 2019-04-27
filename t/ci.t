@@ -34,7 +34,7 @@ subtest 'yaml' => sub {
   my @yaml;
 
   is(
-    [@yaml = find_lib lib => 'yaml'],
+    [@yaml = find_lib lib => 'yaml', try_linker_script => 1],
     bag {
       item match qr/libyaml.*\.so/;
       etc;

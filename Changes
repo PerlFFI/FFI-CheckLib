@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Add try_linker_script option (gh#13, gh#15)
 
 0.23      2018-11-18 00:07:49 -0500
   - Handle DLLs on Windows with "dashed" version numbers (example: foo-1-2-3.dll)
