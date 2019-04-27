@@ -2,7 +2,7 @@
 
 set -ex
 
-if [ "$EXTRA_CI" = "1" ]; then
+if echo $CIP_ENV | grep -q -- EXTRA_CI=1; then
 
   if echo $CIP_TAG | grep -q -- -alpine ; then
     echo alpine
