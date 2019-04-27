@@ -24,3 +24,4 @@ if echo $CIP_ENV | grep -q -- EXTRA_CI=1; then
 
 fi
 
+cip exec cpanm -n Test::Exit
