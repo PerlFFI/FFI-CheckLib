@@ -20,7 +20,7 @@ if echo $CIP_ENV | grep -q -- EXTRA_CI=1; then
     cip sudo apt-get -y install libffi-dev libyaml-dev
   fi
 
-  cpanm -n FFI::Platypus
+  cip exec cpanm -n FFI::Platypus
 
 fi
 
