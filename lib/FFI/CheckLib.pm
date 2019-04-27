@@ -54,6 +54,7 @@ The test suite does depend on L<Test2::Suite>.
 
 our $system_path = [];
 our $os ||= $^O;
+my $try_ld_on_text = 0;
 
 if($os eq 'MSWin32' || $os eq 'msys')
 {
@@ -96,6 +97,13 @@ elsif($os eq 'MSWin32')
 elsif($os eq 'darwin')
 {
   push @$pattern, qr{^lib(.*?)(?:\.([0-9]+(?:\.[0-9]+)*))?\.(?:dylib|bundle)$};
+}
+elsif($os eq 'linux')
+{
+  if(-e '/etc/redhat-release' && -x '/usr/bin/ld')
+  {
+    $try_ld_on_text = 1;
+  }
 }
 
 sub _matches
@@ -273,6 +281,20 @@ sub find_lib
       # read all files from the directory
       readdir $dh;
     closedir $dh;
+
+    if($try_ld_on_text)
+    {
+      @maybe = map {
+        -B $_->[1] ? $_ : do {
+          my($name, $so) = @$_;
+          warn "try to find real .so with ld";
+          my $output = `/usr/bin/ld -t $so -o /dev/null -shared`;
+          $output =~ /\((.*lib.*\.so.*)\)/
+            ? [$name, $1]
+            : die "unable to parse ld output";
+        }
+      } @maybe;
+    }
 
     midloop:
     foreach my $lib (@maybe)
