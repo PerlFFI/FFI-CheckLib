@@ -217,6 +217,20 @@ Example:
 Recursively search for libraries in any non-system paths (those provided
 via C<libpath> above).
 
+=item try_linker_script
+
+[version 0.24]
+
+Some vendors provide C<.so> files that are linker scripts that point to
+the real binary shared library.  These linker scripts can be used by gcc
+or clang, but are not directly usable by L<FFI::Platypus> and friends.
+On select platforms, this options will use the linker command (C<ld>)
+to attempt to resolve the real C<.so> for non-binary files.  Since there
+is extra overhead this is off by default.
+
+An example is libyaml on RedHat based Linux distributions.  On Debian
+these are handled with symlinks and no trickery is required.
+
 =back
 
 =cut
@@ -287,10 +301,11 @@ sub find_lib
       readdir $dh;
     closedir $dh;
 
-    if($try_ld_on_text)
+    if($try_ld_on_text && $args{try_linker_script})
     {
+      # This is tested in t/ci.t only
       @maybe = map {
-        _is_binary( $_->[1] ) ? $_ : do {
+        -B $_->[1] ? $_ : do {
           my($name, $so) = @$_;
           my $output = `/usr/bin/ld -t $so -o /dev/null -shared`;
           $output =~ /\((.*?lib.*\.so.*?)\)/

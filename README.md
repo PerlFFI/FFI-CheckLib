@@ -105,6 +105,20 @@ Arguments are key value pairs with these keys:
     Recursively search for libraries in any non-system paths (those provided
     via `libpath` above).
 
+- try\_linker\_script
+
+    \[version 0.24\]
+
+    Some vendors provide `.so` files that are linker scripts that point to
+    the real binary shared library.  These linker scripts can be used by gcc
+    or clang, but are not directly usable by [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) and friends.
+    On select platforms, this options will use the linker command (`ld`)
+    to attempt to resolve the real `.so` for non-binary files.  Since there
+    is extra overhead this is off by default.
+
+    An example is libyaml on RedHat based Linux distributions.  On Debian
+    these are handled with symlinks and no trickery is required.
+
 ## assert\_lib
 
     assert_lib(%args);
@@ -189,7 +203,7 @@ Not exported by default.
     my $path = FFI::CheckLib::system_path;
 
 Returns the system path as a list reference.  On some systems, this is `PATH`
-on others it might be [LD\_LIBRARY\_PATH](https://metacpan.org/pod/LD_LIBRARY_PATH) on still others it could be something
+on others it might be `LD_LIBRARY_PATH` on still others it could be something
 completely different.  So although you _may_ add items to this list, you should
 probably do some careful consideration before you do so.
 
