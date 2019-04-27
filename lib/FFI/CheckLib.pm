@@ -223,6 +223,11 @@ via C<libpath> above).
 
 my $diagnostic;
 
+sub _is_binary
+{
+  -B $_[0]
+}
+
 sub find_lib
 {
   my(%args) = @_;
@@ -285,11 +290,10 @@ sub find_lib
     if($try_ld_on_text)
     {
       @maybe = map {
-        -B $_->[1] ? $_ : do {
+        _is_binary( $_->[1] ) ? $_ : do {
           my($name, $so) = @$_;
-          warn "try to find real .so with ld";
           my $output = `/usr/bin/ld -t $so -o /dev/null -shared`;
-          $output =~ /\((.*lib.*\.so.*)\)/
+          $output =~ /\((.*?lib.*\.so.*?)\)/
             ? [$name, $1]
             : die "unable to parse ld output";
         }

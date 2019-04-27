@@ -11,7 +11,14 @@ use File::Basename qw( basename );
   'corpus/unix/lib',
 );
 
-my $mock = mock_dynaloader;
+my $mock1 = mock_dynaloader;
+my $mock2 = mock 'FFI::CheckLib' => (
+  override => [
+    _is_binary => sub {
+      -f $_[0];
+    },
+  ],
+);
 
 subtest 'find_lib (good)' => sub {
   my($path) = find_lib( lib => 'foo' );
