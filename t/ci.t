@@ -19,6 +19,8 @@ subtest 'libffi' => sub {
     'have ffi',
   );
 
+  note "lib = $_" for @ffi;
+
   my $ffi = FFI::Platypus->new;
   $ffi->lib(@ffi);
 
@@ -39,6 +41,8 @@ subtest 'yaml' => sub {
     },
     'have yaml',
   );
+
+  note "lib = $_" for @yaml;
 
   my $ffi = FFI::Platypus->new;
   $ffi->lib(@yaml);
