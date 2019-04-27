@@ -10,9 +10,11 @@ my %modules;
 my $post_diag;
 
 $modules{$_} = $_ for qw(
+  CPAN::Meta::Requirements
   DynaLoader
   ExtUtils::MakeMaker
   FFI::Platypus
+  Module::Metadata
   Test2::API
   Test2::Mock
   Test2::Require::EnvVar
