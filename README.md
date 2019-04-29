@@ -116,7 +116,7 @@ Arguments are key value pairs with these keys:
     to attempt to resolve the real `.so` for non-binary files.  Since there
     is extra overhead this is off by default.
 
-    An example is libyaml on RedHat based Linux distributions.  On Debian
+    An example is libyaml on Red Hat based Linux distributions.  On Debian
     these are handled with symlinks and no trickery is required.
 
 ## assert\_lib
@@ -232,6 +232,8 @@ Dan Book (grinnz, DBOOK)
 Ilya Pavlov (Ilya, ILUX)
 
 Shawn Laffan (SLAFFAN)
+
+Petr Pisar (ppisar)
 
 # COPYRIGHT AND LICENSE
 
