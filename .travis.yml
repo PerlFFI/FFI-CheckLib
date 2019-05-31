@@ -16,12 +16,13 @@ script:
 
 jobs:
   include:
-    - env: CIP_TAG=5.29
+    - env: CIP_TAG=5.31
+    - env: CIP_TAG=5.30
+    - env: CIP_TAG=5.30           CIP_ENV=EXTRA_CI=1
+    - env: CIP_TAG=5.30-alpine3.9 CIP_ENV=EXTRA_CI=1
+    - env: CIP_TAG=5.30-centos7   CIP_ENV=EXTRA_CI=1
+    - env: CIP_TAG=5.30-fedora29  CIP_ENV=EXTRA_CI=1
     - env: CIP_TAG=5.28
-    - env: CIP_TAG=5.28           CIP_ENV=EXTRA_CI=1
-    - env: CIP_TAG=5.28-alpine3.9 CIP_ENV=EXTRA_CI=1
-    - env: CIP_TAG=5.28-centos7   CIP_ENV=EXTRA_CI=1
-    - env: CIP_TAG=5.28-fedora29  CIP_ENV=EXTRA_CI=1
     - env: CIP_TAG=5.26
     - env: CIP_TAG=5.24
     - env: CIP_TAG=5.22
