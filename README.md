@@ -119,6 +119,15 @@ Arguments are key value pairs with these keys:
     An example is libyaml on Red Hat based Linux distributions.  On Debian
     these are handled with symlinks and no trickery is required.
 
+- alien
+
+    \[version 0.25\]
+
+    If no libraries can be found, try the given aliens instead.  The Alien
+    classes specified must provide the [Alien::Base](https://metacpan.org/pod/Alien::Base) interface for dynamic
+    libraries, which is to say they should provide a method called
+    `dynamic_libs` that returns a list of dynamic libraries.
+
 ## assert\_lib
 
     assert_lib(%args);

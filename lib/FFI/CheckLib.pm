@@ -315,8 +315,6 @@ sub find_lib
 
   foreach my $path (@path)
   {
-    my @maybe;
-
     next if ref $path ne 'ARRAY' && ! -d $path;
 
     my @maybe =
