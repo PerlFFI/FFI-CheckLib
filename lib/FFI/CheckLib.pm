@@ -69,6 +69,7 @@ else
 {
   $system_path = eval {
     require DynaLoader;
+    no warnings 'once';
     \@DynaLoader::dl_library_path;
   };
   die $@ if $@;
@@ -294,20 +295,17 @@ sub find_lib
 
   foreach my $alien (@{ $args{alien} })
   {
+    unless($alien =~ /^([A-Za-z_][A-Za-z_0-9]*)(::[A-Za-z_][A-Za-z_0-9]*)*$/)
+    {
+        croak "Doesn't appear to be a valid Alien name $alien";
+    }
     unless(eval { $alien->can('dynamic_libs') })
     {
-      if($alien =~ /^([A-Za-z_][A-Za-z_0-9]*)(::[A-Za-z_][A-Za-z_0-9]*)*$/)
+      require Module::Load;
+      Module::Load::load($alien);
+      unless(eval { $alien->can('dynamic_libs') })
       {
-        require Module::Load;
-        Module::Load::load($alien);
-        unless(eval { $alien->can('dynamic_libs') })
-        {
-          croak "Alien $alien doesn't provide a dynamic_libs method";
-        }
-      }
-      else
-      {
-        croak "Doesn't appear to be a valid Alien name $alien";
+        croak "Alien $alien doesn't provide a dynamic_libs method";
       }
     }
     push @path, [$alien->dynamic_libs];
