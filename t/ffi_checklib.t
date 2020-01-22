@@ -157,21 +157,48 @@ subtest 'alien' => sub {
 
   @{ $FFI::CheckLib::system_path } = ();
 
-  my $alien = mock 'Alien::libfoo' => (
-    add => [
-      dynamic_libs => sub {
-        'corpus/unix/lib/libfoo.so.2.3.4',
-      },
-    ],
-  );
+  subtest 'preloaded' => sub {
 
-  is(
-    [FFI::CheckLib::find_lib( lib => 'foo', alien => ['Alien::libfoo'])],
-    array {
-      item 0 => match qr/foo/;
-      end;
-    },
-  );
+   my $alien = mock 'Alien::libfoo' => (
+      add => [
+        dynamic_libs => sub {
+          'corpus/unix/lib/libfoo.so.2.3.4',
+        },
+      ],
+    );
+
+    is(
+      [FFI::CheckLib::find_lib( lib => 'foo', alien => ['Alien::libfoo'])],
+      array {
+        item 0 => match qr/foo/;
+        end;
+      },
+    );
+
+  };
+
+  subtest 'autoload' => sub {
+
+    local @INC = @INC;
+    unshift @INC, 'corpus/lib';
+
+    is(
+      [FFI::CheckLib::find_lib( lib => 'bar', alien => ['Alien::libbar'])],
+      array {
+        item 0 => match qr/bar/;
+        end;
+      },
+    );
+
+  };
+
+  subtest 'invalid name' => sub {
+
+    local $@ = '';
+    eval { FFI::CheckLib::find_lib( lib => 'bar', alien => ['x..y']) };
+    like "$@", qr/Doesn't appear to be a valid Alien name x\.\.y/;
+
+  };
 
 };
 
