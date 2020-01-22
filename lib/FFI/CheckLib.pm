@@ -200,12 +200,12 @@ Example:
    lib => 'foo',
    verify => sub {
      my($name, $libpath) = @_;
-     
+ 
      my $ffi = FFI::Platypus->new;
      $ffi->lib($libpath);
-     
+ 
      my $f = $ffi->function('foo_version', [] => 'int');
-     
+ 
      return $f->call() >= 500; # we accept version 500 or better
    },
  );

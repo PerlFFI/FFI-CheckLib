@@ -4,15 +4,17 @@ Check that a library is available for FFI
 
 # SYNOPSIS
 
-    use FFI::CheckLib;
-    
-    check_lib_or_exit( lib => 'jpeg', symbol => 'jinit_memory_mgr' );
-    check_lib_or_exit( lib => [ 'iconv', 'jpeg' ] );
-    
-    # or prompt for path to library and then:
-    print "where to find jpeg library: ";
-    my $path = <STDIN>;
-    check_lib_or_exit( lib => 'jpeg', libpath => $path );
+```perl
+use FFI::CheckLib;
+
+check_lib_or_exit( lib => 'jpeg', symbol => 'jinit_memory_mgr' );
+check_lib_or_exit( lib => [ 'iconv', 'jpeg' ] );
+
+# or prompt for path to library and then:
+print "where to find jpeg library: ";
+my $path = <STDIN>;
+check_lib_or_exit( lib => 'jpeg', libpath => $path );
+```
 
 # DESCRIPTION
 
@@ -34,7 +36,9 @@ All of these take the same named parameters and are exported by default.
 
 ## find\_lib
 
-    my(@libs) = find_lib(%args);
+```perl
+my(@libs) = find_lib(%args);
+```
 
 This will return a list of dynamic libraries, or empty list if none were
 found.
@@ -81,22 +85,24 @@ Arguments are key value pairs with these keys:
     with [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus) to determine if it is going to meet your needs.
     Example:
 
-        use FFI::CheckLib;
-        use FFI::Platypus;
-        
-        my($lib) = find_lib(
-          lib => 'foo',
-          verify => sub {
-            my($name, $libpath) = @_;
-            
-            my $ffi = FFI::Platypus->new;
-            $ffi->lib($libpath);
-            
-            my $f = $ffi->function('foo_version', [] => 'int');
-            
-            return $f->call() >= 500; # we accept version 500 or better
-          },
-        );
+    ```perl
+    use FFI::CheckLib;
+    use FFI::Platypus;
+
+    my($lib) = find_lib(
+      lib => 'foo',
+      verify => sub {
+        my($name, $libpath) = @_;
+
+        my $ffi = FFI::Platypus->new;
+        $ffi->lib($libpath);
+
+        my $f = $ffi->function('foo_version', [] => 'int');
+
+        return $f->call() >= 500; # we accept version 500 or better
+      },
+    );
+    ```
 
 - recursive
 
@@ -130,7 +136,9 @@ Arguments are key value pairs with these keys:
 
 ## assert\_lib
 
-    assert_lib(%args);
+```
+assert_lib(%args);
+```
 
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),
 except that instead of returning empty list of failure it throws an
@@ -138,7 +146,9 @@ exception.
 
 ## check\_lib\_or\_exit
 
-    check_lib_or_exit(%args);
+```
+check_lib_or_exit(%args);
+```
 
 This behaves exactly the same as [assert\_lib](https://metacpan.org/pod/FFI::CheckLib#assert_lib),
 except that instead of dying, it warns (with exactly the same error
@@ -149,7 +159,9 @@ message) and exists.  This is intended for use in `Makefile.PL` or
 
 \[version 0.05\]
 
-    my(@libs) = find_lib_or_exit(%args);
+```perl
+my(@libs) = find_lib_or_exit(%args);
+```
 
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),
 except that if the library is not found, it will call exit with an
@@ -159,7 +171,9 @@ appropriate diagnostic.
 
 \[version 0.06\]
 
-    my(@libs) = find_lib_or_die(%args);
+```perl
+my(@libs) = find_lib_or_die(%args);
+```
 
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),
 except that if the library is not found, it will die with an appropriate
@@ -167,7 +181,9 @@ diagnostic.
 
 ## check\_lib
 
-    my $bool = check_lib(%args);
+```perl
+my $bool = check_lib(%args);
+```
 
 This behaves exactly the same as [find\_lib](https://metacpan.org/pod/FFI::CheckLib#find_lib),
 except that it returns true (1) on finding the appropriate libraries or
@@ -177,7 +193,9 @@ false (0) otherwise.
 
 \[version 0.17\]
 
-    my $path = where($name);
+```perl
+my $path = where($name);
+```
 
 Return the path to the first library that matches the given name.
 
@@ -187,7 +205,9 @@ Not exported by default.
 
 \[version 0.17\]
 
-    my @paths = where($name);
+```perl
+my @paths = where($name);
+```
 
 Return the paths to all the libraries that match the given name.
 
@@ -197,7 +217,9 @@ Not exported by default.
 
 \[version 0.17\]
 
-    my $bool = has_symbols($path, @symbol_names);
+```perl
+my $bool = has_symbols($path, @symbol_names);
+```
 
 Returns true if _all_ of the symbols can be found in the dynamic library located
 at the given path.  Can be useful in conjunction with `verify` with `find_lib`
@@ -209,7 +231,9 @@ Not exported by default.
 
 \[version 0.20\]
 
-    my $path = FFI::CheckLib::system_path;
+```perl
+my $path = FFI::CheckLib::system_path;
+```
 
 Returns the system path as a list reference.  On some systems, this is `PATH`
 on others it might be `LD_LIBRARY_PATH` on still others it could be something
