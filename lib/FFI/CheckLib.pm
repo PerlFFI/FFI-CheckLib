@@ -301,8 +301,9 @@ sub find_lib
     }
     unless(eval { $alien->can('dynamic_libs') })
     {
-      require Module::Load;
-      Module::Load::load($alien);
+      my $pm = "$alien.pm";
+      $pm =~ s/::/\//g;
+      require $pm;
       unless(eval { $alien->can('dynamic_libs') })
       {
         croak "Alien $alien doesn't provide a dynamic_libs method";
