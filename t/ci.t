@@ -1,7 +1,8 @@
-use Test2::Require::EnvVar 'EXTRA_CI';
-use Test2::V0 -no_srand => 1;
+use Test::More;
 use FFI::CheckLib qw( find_lib );
 use FFI::Platypus;
+
+plan skip_all => 'test only run under CI' unless $ENV{EXTRA_CI};
 
 # This test should only run under ci in a docker container with
 # libffi and libyaml development packages installed

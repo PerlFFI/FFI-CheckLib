@@ -1,9 +1,14 @@
 use lib 't/lib';
-use Test2::Require::Module 'Test::Exit';
-use Test2::V0 -no_srand => 1;
+use Test::More;
 use Test2::Plugin::FauxOS 'linux';
 use Test2::Tools::NoteStderr qw( note_stderr );
-use Test::Exit;
+
+BEGIN {
+  local $@ = '';
+  eval { require Test::Exit; Test::Exit->import };
+  plan skip_all => 'test requires Test::Exit' if $@;
+}
+
 use FFI::CheckLib;
 
 @$FFI::CheckLib::system_path = (
