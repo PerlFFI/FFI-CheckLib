@@ -15,10 +15,9 @@ $modules{$_} = $_ for qw(
   FFI::Platypus
   Test2::API
   Test2::Mock
-  Test2::Require::EnvVar
-  Test2::Require::Module
   Test2::V0
   Test::Exit
+  Test::More
 );
 
 

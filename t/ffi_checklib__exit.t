@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 use lib 't/lib';
 use Test::More;
 use Test2::Plugin::FauxOS 'linux';

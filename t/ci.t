@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 use Test::More;
 use FFI::CheckLib qw( find_lib );
 use FFI::Platypus;
