@@ -246,17 +246,50 @@ This function is not exportable, even on request.
 
 - Why not just use `dlopen`?
 
-    `dlopen` doesn't work on non-POSIX systems like Microsoft Windows.  `dlopen`
-    also just tells you that you can load a library with a particular name, not
-    the full or relative path of that library, which is helpful in diagnostics.
-    `dlopen` doesn't work without knowing the version number on systems like
-    `OpenBSD`. `dlopen` also doesn't work with non-system paths, which is
-    important for [Alien](https://metacpan.org/pod/Alien) use where a `share` installs puts dynamic libraries
-    in non-system directories.
+    Calling `dlopen` on a library name and then `dlclose` immediately can tell
+    you if you have the exact name of a library available on a system.  It does
+    have a number of drawbacks as well.
 
-- My 64-bit Perl is misconfigured with a library path with 32-bit libraries in it.  Is that a bug in [FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib)?
+    - No absolute or relative path
+
+        It only tells you that the library is _somewhere_ on the system, not having
+        the absolute or relative path makes it harder to generate useful diagnostics.
+
+    - POSIX only
+
+        This doesn't work on non-POSIX systems like Microsoft Windows. If you are
+        using a POSIX compatibility layer on Windows that provides `dlopen`, like
+        Cygwin, there are a number of gotchas there as well.  Having a layer written
+        in Perl handles this means that developers on Unix can develop FFI that will
+        more likely work on these platforms without special casing them.
+
+    - inconsistent implementations
+
+        Even on POSIX systems you have inconsistent implementations.  OpenBSD for
+        example don't usually include symlinks for `.so` files meaning you need
+        to know the exact `.so` version.
+
+    - non-system directories
+
+        By default `dlopen` only works for libraries in the system paths.  Most
+        platforms have a way of configuring the search for different non-system
+        paths, but none of them are portable, and are usually discouraged anyway.
+        [Alien](https://metacpan.org/pod/Alien) and friends need to do searches for dynamic libraries in
+        non-system directories for `share` installs.
+
+- My 64-bit Perl is misconfigured and has 32-bit libraries in its search path.  Is that a bug in [FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib)?
 
     Nope.
+
+- The way [FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib) is implemented it won't work on AIX, HP-UX, OpenVMS or Plan 9.
+
+    I know for a fact that it doesn't work on AIX because I used to develop on
+    AIX in the early 2000s, and I am aware of some of the technical challenges.
+    There are probably other systems that it won't work on.  I would love to add
+    support for these platforms.  Realistically these platforms have a tiny market
+    share, and absent patches from users or the companies that own these operating
+    systems (patches welcome), or hardware / CPU time donations, these platforms
+    are unsupportable anyway.
 
 # SEE ALSO
 
