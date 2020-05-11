@@ -640,7 +640,7 @@ the absolute or relative path makes it harder to generate useful diagnostics.
 =item POSIX only
 
 This doesn't work on non-POSIX systems like Microsoft Windows. If you are
-using a POSIX compatibility layer on Windows that provides C<dlopen>, like
+using a POSIX emulation layer on Windows that provides C<dlopen>, like
 Cygwin, there are a number of gotchas there as well.  Having a layer written
 in Perl handles this means that developers on Unix can develop FFI that will
 more likely work on these platforms without special casing them.
@@ -667,13 +667,13 @@ Nope.
 
 =item The way L<FFI::CheckLib> is implemented it won't work on AIX, HP-UX, OpenVMS or Plan 9.
 
-I know for a fact that it doesn't work on AIX because I used to develop on
-AIX in the early 2000s, and I am aware of some of the technical challenges.
-There are probably other systems that it won't work on.  I would love to add
-support for these platforms.  Realistically these platforms have a tiny market
-share, and absent patches from users or the companies that own these operating
-systems (patches welcome), or hardware / CPU time donations, these platforms
-are unsupportable anyway.
+I know for a fact that it doesn't work on AIX I<as currently implemented>
+because I used to develop on AIX in the early 2000s, and I am aware of some
+of the technical challenges.  There are probably other systems that it won't
+work on.  I would love to add support for these platforms.  Realistically
+these platforms have a tiny market share, and absent patches from users or
+the companies that own these operating systems (patches welcome), or hardware
+/ CPU time donations, these platforms are unsupportable anyway.
 
 =back
 
