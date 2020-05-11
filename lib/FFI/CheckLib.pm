@@ -620,6 +620,26 @@ sub system_path
 
 1;
 
+=head1 FAQ
+
+=over 4
+
+=item Why not just use C<dlopen>?
+
+C<dlopen> doesn't work on non-POSIX systems like Microsoft Windows.  C<dlopen>
+also just tells you that you can load a library with a particular name, not
+the full or relative path of that library, which is helpful in diagnostics.
+C<dlopen> doesn't work without knowing the version number on systems like
+C<OpenBSD>. C<dlopen> also doesn't work with non-system paths, which is
+important for L<Alien> use where a C<share> installs puts dynamic libraries
+in non-system directories.
+
+=item My 64-bit Perl is misconfigured with a library path with 32-bit libraries in it.  Is that a bug in L<FFI::CheckLib>?
+
+Nope.
+
+=back
+
 =head1 SEE ALSO
 
 =over 4

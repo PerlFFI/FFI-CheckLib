@@ -1,4 +1,4 @@
-# FFI::CheckLib [![Build Status](https://secure.travis-ci.org/Perl5-FFI/FFI-CheckLib.png)](http://travis-ci.org/Perl5-FFI/FFI-CheckLib)
+# FFI::CheckLib [![Build Status](https://travis-ci.org/Perl5-FFI/FFI-CheckLib.svg)](http://travis-ci.org/Perl5-FFI/FFI-CheckLib)
 
 Check that a library is available for FFI
 
@@ -241,6 +241,22 @@ completely different.  So although you _may_ add items to this list, you should
 probably do some careful consideration before you do so.
 
 This function is not exportable, even on request.
+
+# FAQ
+
+- Why not just use `dlopen`?
+
+    `dlopen` doesn't work on non-POSIX systems like Microsoft Windows.  `dlopen`
+    also just tells you that you can load a library with a particular name, not
+    the full or relative path of that library, which is helpful in diagnostics.
+    `dlopen` doesn't work without knowing the version number on systems like
+    `OpenBSD`. `dlopen` also doesn't work with non-system paths, which is
+    important for [Alien](https://metacpan.org/pod/Alien) use where a `share` installs puts dynamic libraries
+    in non-system directories.
+
+- My 64-bit Perl is misconfigured with a library path with 32-bit libraries in it.  Is that a bug in [FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib)?
+
+    Nope.
 
 # SEE ALSO
 
