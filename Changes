@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Added a FAQ section to the documentation (gh#22)
 
 0.26      2020-01-22 05:54:02 -0700
   - Name check on alien option is always done, even if the Alien is already
