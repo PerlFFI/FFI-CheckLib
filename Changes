@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.27      2020-05-11 14:24:08 -0400
   - Added a FAQ section to the documentation (gh#22)
 
 0.26      2020-01-22 05:54:02 -0700
