@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Move to PerlFFI org on GitHub (previously this dist lived in Perl5-FFI)
+    (gh#24)
 
 0.27      2020-05-11 14:24:08 -0400
   - Added a FAQ section to the documentation (gh#22)
