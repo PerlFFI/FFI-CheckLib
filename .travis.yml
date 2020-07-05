@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-  - curl https://raw.githubusercontent.com/plicease/cip/master/bin/travis-bootstrap | bash
+  - curl https://raw.githubusercontent.com/plicease/cip/main/bin/travis-bootstrap | bash
   - cip before-install
 
 install:
@@ -16,7 +16,7 @@ script:
 
 jobs:
   include:
-    - env: CIP_TAG=5.31
+    - env: CIP_TAG=7.0.0-core-p7
     - env: CIP_TAG=5.30
     - env: CIP_TAG=5.30           CIP_ENV=EXTRA_CI=1
     - env: CIP_TAG=5.30-alpine3.9 CIP_ENV=EXTRA_CI=1
