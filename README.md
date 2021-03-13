@@ -1,4 +1,4 @@
-# FFI::CheckLib [![Build Status](https://api.travis-ci.com/PerlFFI/FFI-CheckLib.svg?branch=main)](https://travis-ci.com/github/PerlFFI/FFI-CheckLib) ![macos](https://github.com/PerlFFI/FFI-CheckLib/workflows/macos/badge.svg)
+# FFI::CheckLib ![linux](https://github.com/PerlFFI/FFI-CheckLib/workflows/linux/badge.svg) ![macos](https://github.com/PerlFFI/FFI-CheckLib/workflows/macos/badge.svg)
 
 Check that a library is available for FFI
 
