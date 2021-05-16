@@ -19,4 +19,7 @@ else
 fi
 
 cip exec cpanm -n FFI::Platypus
-cip exec cpanm -n Test::Exit
+
+if [ $CIP_TAG != "5.8" ]; then
+  cip exec cpanm -n Test2::Tools::Process
+fi

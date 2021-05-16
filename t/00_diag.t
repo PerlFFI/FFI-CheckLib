@@ -17,8 +17,8 @@ $modules{$_} = $_ for qw(
   Test2::API
   Test2::Require::EnvVar
   Test2::Require::Module
+  Test2::Tools::Process
   Test2::V0
-  Test::Exit
 );
 
 
