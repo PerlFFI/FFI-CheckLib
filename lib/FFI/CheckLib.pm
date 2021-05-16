@@ -3,6 +3,7 @@ package FFI::CheckLib;
 use strict;
 use warnings;
 use File::Spec;
+use List::Util 1.33 qw( any );
 use Carp qw( croak carp );
 use base qw( Exporter );
 
@@ -286,7 +287,7 @@ sub find_lib
     ? @{ $args{systempath} }
     : @$system_path;
 
-  my $any = 1 if grep { $_ eq '*' } @{ $args{lib} };
+  my $any = any { $_ eq '*' } @{ $args{lib} };
   my %missing = map { $_ => 1 } @{ $args{lib} };
   my %symbols = map { $_ => 1 } @{ $args{symbol} };
   my @found;
