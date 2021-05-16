@@ -2,6 +2,9 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
   - Avoid undef warning from File::Spec->catpath (gh#30, gh#33)
+  - The alien option now works in fallback mode; if one or more of the 
+    Aliens are not installed then they will be ignored, previously this
+    module would throw whatever exception was produced by require (gh#23, gh#34)
   - Move to PerlFFI org on GitHub (previously this dist lived in Perl5-FFI)
     (gh#24)
 

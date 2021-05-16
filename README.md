@@ -134,6 +134,14 @@ Arguments are key value pairs with these keys:
     libraries, which is to say they should provide a method called
     `dynamic_libs` that returns a list of dynamic libraries.
 
+    \[version 0.28\]
+
+    In 0.28 and later, if the [Alien](https://metacpan.org/pod/Alien) is not installed then it will be
+    ignored and this module will search in system or specified directories
+    only.  This module _will_ still throw an exception, if the [Alien](https://metacpan.org/pod/Alien)
+    doesn't look like a module name or if it does not provide a `dynamic_libs`
+    method (which is implemented by all [Alien::Base](https://metacpan.org/pod/Alien::Base) subclasses).
+
 ## assert\_lib
 
 ```
