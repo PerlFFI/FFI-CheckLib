@@ -1,4 +1,4 @@
-# FFI::CheckLib ![linux](https://github.com/PerlFFI/FFI-CheckLib/workflows/linux/badge.svg) ![macos](https://github.com/PerlFFI/FFI-CheckLib/workflows/macos/badge.svg) ![cygwin](https://github.com/PerlFFI/FFI-CheckLib/workflows/cygwin/badge.svg)
+# FFI::CheckLib ![linux](https://github.com/PerlFFI/FFI-CheckLib/workflows/linux/badge.svg) ![macos](https://github.com/PerlFFI/FFI-CheckLib/workflows/macos/badge.svg) ![windows](https://github.com/PerlFFI/FFI-CheckLib/workflows/windows/badge.svg) ![cygwin](https://github.com/PerlFFI/FFI-CheckLib/workflows/cygwin/badge.svg) ![msys2-mingw](https://github.com/PerlFFI/FFI-CheckLib/workflows/msys2-mingw/badge.svg)
 
 Check that a library is available for FFI
 
