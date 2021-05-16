@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.28      2021-05-16 15:10:34 -0600
   - Avoid undef warning from File::Spec->catpath (gh#30, gh#33)
   - The alien option now works in fallback mode; if one or more of the 
     Aliens are not installed then they will be ignored, previously this
