@@ -14,9 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         cip_tag:
-#          - static
+          - static
           - "5.33"
           - "5.32"
           - "5.32-alpine3.9"
@@ -74,3 +75,8 @@ jobs:
       - name: Build + Test
         run: |
           cip script
+
+      - name: CPAN log
+        if: ${{ failure() }}
+        run: |
+          cip exec bash -c 'cat $HOME/.cpanm/latest-build/build.log'
