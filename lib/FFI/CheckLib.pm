@@ -327,7 +327,7 @@ sub find_lib
         ? do {
           map {
             my($v, $d, $f) = File::Spec->splitpath($_);
-            _matches($f, File::Spec->catpath($v,$d));
+            _matches($f, File::Spec->catpath($v,$d,''));
           } @$path;
         }
         : do {

@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - Avoid undef warning from File::Spec->catpath (gh#30, gh#33)
   - Move to PerlFFI org on GitHub (previously this dist lived in Perl5-FFI)
     (gh#24)
 
