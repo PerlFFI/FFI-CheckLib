@@ -13,6 +13,7 @@ $modules{$_} = $_ for qw(
   DynaLoader
   ExtUtils::MakeMaker
   FFI::Platypus
+  List::Util
   Test2::API
   Test2::Require::EnvVar
   Test2::Require::Module
