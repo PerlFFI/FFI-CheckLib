@@ -540,7 +540,7 @@ sub check_lib
 
 [version 0.17]
 
- my $path = where($name);
+ my $path = which($name);
 
 Return the path to the first library that matches the given name.
 
