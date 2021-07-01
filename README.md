@@ -323,7 +323,7 @@ Ilya Pavlov (Ilya, ILUX)
 
 Shawn Laffan (SLAFFAN)
 
-Petr Pisar (ppisar)
+Petr Písař (ppisar)
 
 # COPYRIGHT AND LICENSE
 
