@@ -202,7 +202,7 @@ false (0) otherwise.
 \[version 0.17\]
 
 ```perl
-my $path = where($name);
+my $path = which($name);
 ```
 
 Return the path to the first library that matches the given name.
@@ -324,6 +324,8 @@ Ilya Pavlov (Ilya, ILUX)
 Shawn Laffan (SLAFFAN)
 
 Petr Písař (ppisar)
+
+Michael R. Davis (MRDVT)
 
 # COPYRIGHT AND LICENSE
 
