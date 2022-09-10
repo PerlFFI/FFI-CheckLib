@@ -17,7 +17,6 @@ jobs:
       fail-fast: false
       matrix:
         cip_tag:
-          - static
           - "5.37"
           - "5.36"
           - "5.36-alpine3.16"
