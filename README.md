@@ -327,6 +327,8 @@ Petr Písař (ppisar)
 
 Michael R. Davis (MRDVT)
 
+Shawn Laffan (SLAFFAN)
+
 # COPYRIGHT AND LICENSE
 
 This software is copyright (c) 2014-2018 by Graham Ollis.
