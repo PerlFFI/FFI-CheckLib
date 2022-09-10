@@ -92,9 +92,9 @@ elsif($os eq 'msys')
 }
 elsif($os eq 'MSWin32')
 {
-  #  handle cases like libgeos-3-7-0___.dll and libgtk-2.0-0.dll
-  $pattern = [ qr{^(?:lib)?(\w+?)(?:-([0-9-\.]+))?_*\.dll$}i ];
-  $version_split = qr/\-/;
+  #  handle cases like libgeos-3-7-0___.dll, libproj_9_1.dll and libgtk-2.0-0.dll
+  $pattern = [ qr{^(?:lib)?(\w+?)(?:[_-]([0-9\-\._]+))?_*\.dll$}i ];
+  $version_split = qr/[_\-]/;
 }
 elsif($os eq 'darwin')
 {
