@@ -74,6 +74,12 @@ else
     \@DynaLoader::dl_library_path;
   };
   die $@ if $@;
+  if($os eq 'darwin' && (qx`command -v brew`)[0])
+  {
+    chomp(my $brew_path = (qx`brew --prefix`)[0]);
+    $brew_path .= '/lib';
+    push @$system_path, $brew_path unless any { $_ eq $brew_path } @$system_path;
+  }
 }
 
 our $pattern = [ qr{^lib(.*?)\.so(?:\.([0-9]+(?:\.[0-9]+)*))?$} ];
