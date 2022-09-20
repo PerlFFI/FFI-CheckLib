@@ -57,6 +57,36 @@ our $system_path = [];
 our $os ||= $^O;
 my $try_ld_on_text = 0;
 
+sub _homebrew_lib_path {
+  return () unless (qx`command -v brew`)[0];
+  chomp(my $brew_path = (qx`brew --prefix`)[0]);
+  return "$brew_path/lib";
+}
+
+sub _macports_lib_path {
+  my $port_path = (qx`command -v port`)[0];
+  return () unless $port_path;
+  chomp($port_path);
+  return $port_path =~ s|bin/port|lib|r;
+}
+
+sub _darwin_extra_paths {
+  my $pkg_managers = lc( $ENV{FFI_CHECKLIB_PACKAGE} // 'homebrew,macports' );
+  return () if $pkg_managers eq 'none';
+  my $supported_managers = {
+      homebrew => \&_homebrew_lib_path,
+      macports => \&_macports_lib_path
+  };
+  my @extra_paths = ();
+  foreach my $pkg_manager (split( ',', $pkg_managers )) {
+    if (my $lib_path = $supported_managers->{$pkg_manager}()) {
+      push @extra_paths, $lib_path;
+    }
+  }
+  return @extra_paths;
+}
+
+my @extra_paths = ();
 if($os eq 'MSWin32' || $os eq 'msys')
 {
   $system_path = eval {
@@ -74,12 +104,10 @@ else
     \@DynaLoader::dl_library_path;
   };
   die $@ if $@;
-  if($os eq 'darwin' && (qx`command -v brew`)[0])
-  {
-    chomp(my $brew_path = (qx`brew --prefix`)[0]);
-    $brew_path .= '/lib';
-    push @$system_path, $brew_path unless any { $_ eq $brew_path } @$system_path;
-  }
+  @extra_paths = _darwin_extra_paths() if $os eq 'darwin';
+}
+foreach my $path (@extra_paths) {
+  push @$system_path, $path unless any { $_ eq $path } @$system_path;
 }
 
 our $pattern = [ qr{^lib(.*?)\.so(?:\.([0-9]+(?:\.[0-9]+)*))?$} ];
