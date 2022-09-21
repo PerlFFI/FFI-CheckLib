@@ -260,30 +260,6 @@ probably do some careful consideration before you do so.
 
 This function is not exportable, even on request.
 
-## Extra library paths
-
-### macOS
-
-On macOS platforms with [Homebrew](http://brew.sh) and/or [MacPorts](https://www.macports.org)
-package managers installed, default manager's lib paths will be automatically appended to
-`$system_path`. In case of having both managers installed, Homebrew will appear before.
-
-This behaviour can be overridden using the environment variable `FFI_CHECKLIB_PACKAGE`.
-
-Allowed values are:
-
-- `none`: Won't use either Homebrew path nor MacPorts
-- `homebrew`: Will append the `$(brew --prefix)/lib` to the system paths
-- `macports`: Will append `port` default lib path
-
-A comma separated list is also valid:
-
-```sh
-export FFI_CHECKLIB_PACKAGE=macports,homebrew
-```
-
-Order matters, so in this example, MacPorts' lib path appears before Homebrew's path.
-
 # FAQ
 
 - Why not just use `dlopen`?
