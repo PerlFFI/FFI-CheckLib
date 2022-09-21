@@ -78,7 +78,7 @@ sub _darwin_extra_paths {
       macports => \&_macports_lib_path
   };
   my @extra_paths = ();
-  foreach my $pkg_manager (split( ',', $pkg_managers )) {
+  foreach my $pkg_manager (split( /,/, $pkg_managers )) {
     if (my $lib_path = $supported_managers->{$pkg_manager}()) {
       push @extra_paths, $lib_path;
     }
