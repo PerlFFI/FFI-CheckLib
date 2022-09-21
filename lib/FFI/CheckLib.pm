@@ -677,6 +677,28 @@ sub system_path
 
 1;
 
+=head1 Extra library paths
+
+=head2 macOS
+
+On macOS platforms with L<Homebrew|http://brew.sh> and/or L<MacPorts|https://www.macports.org>
+installed, their corresponding lib paths will be automatically appended to C<$system_path>.
+In case of having both managers installed, Homebrew will appear before.
+
+This behaviour can be overridden using the environment variable C<FFI_CHECKLIB_PACKAGE>.
+
+Allowed values are:
+
+- C<none>: Won't use either Homebrew's path nor MacPorts
+- C<homebrew>: Will append C<$(brew --prefix)/lib> to the system paths
+- C<macports>: Will append C<port>'s default lib path
+
+A comma separated list is also valid:
+
+ export FFI_CHECKLIB_PACKAGE=macports,homebrew
+
+Order matters. So in this example, MacPorts' lib path appears before Homebrew's path.
+
 =head1 FAQ
 
 =over 4
