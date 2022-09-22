@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - [ BREAKING CHANGE ]
+    If the alien option is provided, the libraries provided by aliens will be
+    preferred over the system libraries (gh#47, gh#48)
 
 0.29      2022-09-10 01:46:05 -0600
   - Handle Windows DLLs using underscores instead of dashes in version

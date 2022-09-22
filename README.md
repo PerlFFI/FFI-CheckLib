@@ -142,6 +142,16 @@ Arguments are key value pairs with these keys:
     doesn't look like a module name or if it does not provide a `dynamic_libs`
     method (which is implemented by all [Alien::Base](https://metacpan.org/pod/Alien::Base) subclasses).
 
+    \[version 0.30\]
+    \[breaking change\]
+
+    Starting with version 0.30, libraries provided by [Alien](https://metacpan.org/pod/Alien)s is preferred
+    over the system libraries.  The original thinking was that you want to
+    prefer the system libraries because they are more likely to get patched
+    with regular system updates.  Unfortunately, the reason a module needs to
+    install an Alien is likely because the system library is not new enough,
+    so we now prefer the [Alien](https://metacpan.org/pod/Alien)s instead.
+
 ## assert\_lib
 
 ```
