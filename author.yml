@@ -21,6 +21,9 @@ pod_spelling_system:
     - ppisar
     - UX
     - MRDVT
+    - macOS
+    - Homebrew
+    - MacPorts
 
 
 pod_coverage:
