@@ -220,7 +220,7 @@ subtest '_cmp' => sub {
 subtest '_darwin_extra_libraries' => sub {
   my $homebrew_lib_path = '/opt/homebrew/lib';
   my $macports_lib_path = '/opt/local/lib';
-  my $mock = Test2::V0::mock 'FFI::CheckLib';
+  my $mock = mock 'FFI::CheckLib';
   $mock->override(
       _homebrew_lib_path => sub {$homebrew_lib_path},
       _macports_lib_path => sub {$macports_lib_path}
