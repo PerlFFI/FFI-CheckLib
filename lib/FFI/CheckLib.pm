@@ -58,14 +58,16 @@ our $os ||= $^O;
 my $try_ld_on_text = 0;
 
 sub _homebrew_lib_path {
-  return () unless (qx`command -v brew`)[0];
+  require File::Which;
+  return undef unless File::Which::which('brew');
   chomp(my $brew_path = (qx`brew --prefix`)[0]);
   return "$brew_path/lib";
 }
 
 sub _macports_lib_path {
-  my $port_path = (qx`command -v port`)[0];
-  return () unless $port_path;
+  require File::Which;
+  my $port_path = File::Which::which('port');
+  return undef unless $port_path;
   chomp($port_path);
   $port_path =~ s|bin/port|lib|;
   return $port_path;
