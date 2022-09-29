@@ -108,9 +108,6 @@ else
   die $@ if $@;
   @extra_paths = _darwin_extra_paths() if $os eq 'darwin';
 }
-foreach my $path (@extra_paths) {
-  push @$system_path, $path unless any { $_ eq $path } @$system_path;
-}
 
 our $pattern = [ qr{^lib(.*?)\.so(?:\.([0-9]+(?:\.[0-9]+)*))?$} ];
 our $version_split = qr/\./;
@@ -340,6 +337,10 @@ sub find_lib
   push @path, grep { defined } defined $args{systempath}
     ? @{ $args{systempath} }
     : @$system_path;
+
+  foreach my $extra_path (@extra_paths) {
+    push @path, $extra_path unless any { $_ eq $extra_path } @path;
+  }
 
   my $any = any { $_ eq '*' } @{ $args{lib} };
   my %missing = map { $_ => 1 } @{ $args{lib} };
