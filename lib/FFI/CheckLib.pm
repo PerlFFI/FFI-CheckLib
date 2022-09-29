@@ -67,7 +67,8 @@ sub _macports_lib_path {
   my $port_path = (qx`command -v port`)[0];
   return () unless $port_path;
   chomp($port_path);
-  return $port_path =~ s|bin/port|lib|r;
+  $port_path =~ s|bin/port|lib|;
+  return $port_path;
 }
 
 sub _darwin_extra_paths {
