@@ -68,7 +68,6 @@ sub _macports_lib_path {
   require File::Which;
   my $port_path = File::Which::which('port');
   return undef unless $port_path;
-  chomp($port_path);
   $port_path =~ s|bin/port|lib|;
   return $port_path;
 }
