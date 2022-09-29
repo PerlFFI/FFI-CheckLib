@@ -680,9 +680,13 @@ sub system_path
 
 1;
 
-=head1 Extra library paths
+=head1 ENVIRONMENT
 
-=head2 macOS
+L<FFI::CheckLib> responds to these environment variables:
+
+=over 4
+
+=item FFI_CHECKLIB_PACKAGE
 
 On macOS platforms with L<Homebrew|http://brew.sh> and/or L<MacPorts|https://www.macports.org>
 installed, their corresponding lib paths will be automatically appended to C<$system_path>.
@@ -701,6 +705,8 @@ A comma separated list is also valid:
  export FFI_CHECKLIB_PACKAGE=macports,homebrew
 
 Order matters. So in this example, MacPorts' lib path appears before Homebrew's path.
+
+=back
 
 =head1 FAQ
 
