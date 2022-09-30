@@ -745,6 +745,11 @@ libraries.
 
 =back
 
+On some operating systems C<LD_LIBRARY_PATH>, C<DYLD_LIBRARY_PATH>,
+C<DYLD_FALLBACK_LIBRARY_PATH> or others I<may> be used as part of the search
+for dynamic libraries and I<may> be used (indirectly) by L<FFI::CheckLib>
+as well.
+
 =head1 FAQ
 
 =over 4
