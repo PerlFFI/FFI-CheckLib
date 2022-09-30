@@ -24,6 +24,8 @@ pod_spelling_system:
     - macOS
     - Homebrew
     - MacPorts
+    - cdalvaro
+    - lvaro
 
 
 pod_coverage:

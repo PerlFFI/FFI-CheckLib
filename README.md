@@ -260,6 +260,32 @@ probably do some careful consideration before you do so.
 
 This function is not exportable, even on request.
 
+# ENVIRONMENT
+
+[FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib) responds to these environment variables:
+
+- FFI\_CHECKLIB\_PACKAGE
+
+    On macOS platforms with [Homebrew](http://brew.sh) and/or [MacPorts](https://www.macports.org)
+    installed, their corresponding lib paths will be automatically appended to `$system_path`.
+    In case of having both managers installed, Homebrew will appear before.
+
+    This behaviour can be overridden using the environment variable `FFI_CHECKLIB_PACKAGE`.
+
+    Allowed values are:
+
+    \- `none`: Won't use either Homebrew's path nor MacPorts
+    \- `homebrew`: Will append `$(brew --prefix)/lib` to the system paths
+    \- `macports`: Will append `port`'s default lib path
+
+    A comma separated list is also valid:
+
+    ```
+    export FFI_CHECKLIB_PACKAGE=macports,homebrew
+    ```
+
+    Order matters. So in this example, MacPorts' lib path appears before Homebrew's path.
+
 # FAQ
 
 - Why not just use `dlopen`?
@@ -338,6 +364,8 @@ Petr Písař (ppisar)
 Michael R. Davis (MRDVT)
 
 Shawn Laffan (SLAFFAN)
+
+Carlos D. Álvaro (cdalvaro)
 
 # COPYRIGHT AND LICENSE
 
