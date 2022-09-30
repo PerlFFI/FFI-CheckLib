@@ -738,6 +738,11 @@ directories".  They will be searched before other system directories but after C
 The variable is colon separated on Unix and semicolon separated on Windows.  If you
 use this variable, C<FFI_CHECKLIB_PACKAGE> will be ignored.
 
+=item PATH
+
+On Windows the C<PATH> environment variable will be used as a search path for
+libraries.
+
 =back
 
 =head1 FAQ
