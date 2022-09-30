@@ -288,7 +288,7 @@ This function is not exportable, even on request.
 
 - FFI\_CHECKLIB\_PATH
 
-    List of directories that will be considered by [FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib) additional "system
+    List of directories that will be considered by [FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib) as additional "system
     directories".  They will be searched before other system directories but after `libpath`.
     The variable is colon separated on Unix and semicolon separated on Windows.  If you
     use this variable, `FFI_CHECKLIB_PACKAGE` will be ignored.
