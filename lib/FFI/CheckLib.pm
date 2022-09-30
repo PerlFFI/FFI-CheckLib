@@ -733,7 +733,7 @@ Order matters. So in this example, MacPorts' lib path appears before Homebrew's 
 
 =item FFI_CHECKLIB_PATH
 
-List of directories that will be considered by L<FFI::CheckLib> additional "system
+List of directories that will be considered by L<FFI::CheckLib> as additional "system
 directories".  They will be searched before other system directories but after C<libpath>.
 The variable is colon separated on Unix and semicolon separated on Windows.  If you
 use this variable, C<FFI_CHECKLIB_PACKAGE> will be ignored.
