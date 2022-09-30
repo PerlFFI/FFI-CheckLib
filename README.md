@@ -298,6 +298,11 @@ This function is not exportable, even on request.
     On Windows the `PATH` environment variable will be used as a search path for
     libraries.
 
+On some operating systems `LD_LIBRARY_PATH`, `DYLD_LIBRARY_PATH`,
+`DYLD_FALLBACK_LIBRARY_PATH` or others _may_ be used as part of the search
+for dynamic libraries and _may_ be used (indirectly) by [FFI::CheckLib](https://metacpan.org/pod/FFI::CheckLib)
+as well.
+
 # FAQ
 
 - Why not just use `dlopen`?
