@@ -334,12 +334,18 @@ sub find_lib
 
   my @path = @{ $args{libpath} };
   @path = map { _recurse($_) } @path if $recursive;
-  push @path, grep { defined } defined $args{systempath}
-    ? @{ $args{systempath} }
-    : @$system_path;
 
-  foreach my $extra_path (@extra_paths) {
-    push @path, $extra_path unless any { $_ eq $extra_path } @path;
+  if(defined $args{systempath})
+  {
+    push @path, grep { defined } @{ $args{systempath} }
+  }
+  else
+  {
+    push @path, @$system_path;
+    foreach my $extra_path (@extra_paths)
+    {
+      push @path, $extra_path unless any { $_ eq $extra_path } @path;
+    }
   }
 
   my $any = any { $_ eq '*' } @{ $args{lib} };
