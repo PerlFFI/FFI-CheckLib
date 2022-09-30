@@ -5,6 +5,7 @@ use warnings;
 use File::Spec;
 use List::Util 1.33 qw( any );
 use Carp qw( croak carp );
+use Env qw( @FFI_CHECKLIB_PATH );
 use base qw( Exporter );
 
 our @EXPORT = qw(
@@ -341,11 +342,29 @@ sub find_lib
   }
   else
   {
-    push @path, @$system_path;
-    foreach my $extra_path (@extra_paths)
+    # This is a little convaluted, but:
+    # 1. These are modifications of what we consider the "system" path
+    #    if systempath isn't explicitly passed in as systempath
+    # 2. FFI_CHECKLIB_PATH is considered an authortative modification
+    #    so it goes first and overrides FFI_CHECKLIB_PACKAGE
+    # 3. otherwise FFI_CHECKLIB_PACKAGE does its thing and goes on
+    #    the end because homebrew does a good job of not replacing
+    #    anything in the system by default.
+    # 4. We finally add what we consider the "system" path to the end of
+    #    the search path so that libpath will be searched first.
+    my @system_path = @$system_path;
+    if($ENV{FFI_CHECKLIB_PATH})
     {
-      push @path, $extra_path unless any { $_ eq $extra_path } @path;
+      @system_path = (@FFI_CHECKLIB_PATH, @system_path);
     }
+    else
+    {
+      foreach my $extra_path (@extra_paths)
+      {
+        push @path, $extra_path unless any { $_ eq $extra_path } @path;
+      }
+    }
+    push @path, @system_path;
   }
 
   my $any = any { $_ eq '*' } @{ $args{lib} };
@@ -711,6 +730,13 @@ A comma separated list is also valid:
  export FFI_CHECKLIB_PACKAGE=macports,homebrew
 
 Order matters. So in this example, MacPorts' lib path appears before Homebrew's path.
+
+=item FFI_CHECKLIB_PATH
+
+List of directories that will be considered by L<FFI::CheckLib> additional "system
+directories".  They will be searched before other system directories but after C<libpath>.
+The variable is colon separated on Unix and semicolon separated on Windows.  If you
+use this variable, C<FFI_CHECKLIB_PACKAGE> will be ignored.
 
 =back
 
