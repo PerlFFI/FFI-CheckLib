@@ -293,6 +293,11 @@ This function is not exportable, even on request.
     The variable is colon separated on Unix and semicolon separated on Windows.  If you
     use this variable, `FFI_CHECKLIB_PACKAGE` will be ignored.
 
+- PATH
+
+    On Windows the `PATH` environment variable will be used as a search path for
+    libraries.
+
 # FAQ
 
 - Why not just use `dlopen`?
