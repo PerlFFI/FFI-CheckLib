@@ -73,7 +73,7 @@ sub _macports_lib_path {
 }
 
 sub _darwin_extra_paths {
-  my $pkg_managers = lc( $ENV{FFI_CHECKLIB_PACKAGE} // 'homebrew,macports' );
+  my $pkg_managers = lc( $ENV{FFI_CHECKLIB_PACKAGE} || 'homebrew,macports' );
   return () if $pkg_managers eq 'none';
   my $supported_managers = {
       homebrew => \&_homebrew_lib_path,
