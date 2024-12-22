@@ -1,3 +1,5 @@
 /FFI-CheckLib-*
 /.build
 *.swp
+*.old
+*.orig
