@@ -1,4 +1,4 @@
-# FFI::CheckLib ![static](https://github.com/PerlFFI/FFI-CheckLib/workflows/static/badge.svg) ![linux](https://github.com/PerlFFI/FFI-CheckLib/workflows/linux/badge.svg) ![macos](https://github.com/PerlFFI/FFI-CheckLib/workflows/macos/badge.svg) ![cygwin](https://github.com/PerlFFI/FFI-CheckLib/workflows/cygwin/badge.svg)
+# FFI::CheckLib ![static](https://github.com/PerlFFI/FFI-CheckLib/workflows/static/badge.svg) ![linux](https://github.com/PerlFFI/FFI-CheckLib/workflows/linux/badge.svg) ![macos](https://github.com/PerlFFI/FFI-CheckLib/workflows/macos/badge.svg)
 
 Check that a library is available for FFI
 
@@ -386,7 +386,7 @@ Carlos D. Álvaro (cdalvaro)
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014-2022 by Graham Ollis.
+This software is copyright (c) 2014-2024 by Graham Ollis.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
